@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Todo aficionado al fútbol tiene un equipo favorito al cual apoya, este apoyo es en las buenas y en las malas, al cual le desea que gane siempre para que así se genere felicidad en ellos, si nos centramos en Chile podemos decir que resaltan 3 equipos cuyo nivel de popularidad es mayor (GFK Adimark), estos equipos son Colo-Colo, Universidad de Chile y Universidad Católica.
+Todo aficionado al fútbol tiene un equipo favorito al cual apoya, este apoyo es en las buenas y en las malas, al cual le desea que gane siempre para que así se genere felicidad en ellos, si nos centramos en Chile podemos decir que resaltan 3 equipos cuyo nivel de popularidad es mayor (GFK Adimark), estos equipos son Colo-Colo con 42%, Universidad de Chile con 21% y Universidad Católica con 8%.
 
 Los hinchas de estos equipos mencionados anteriormente se preguntan: ¿Como le a ido a mi club históricamente en los campeonatos?, ¿Que rival es más fácil de vencer?, ¿Como le ha ido a mi equipo frente a los otros 2 clubes más populares?,¿Qué equipo es el mejor? responder estas preguntas resulta relevante, ya que nos podría guiar a los resultados que obtendrá el equipo que la gente apoya.
 
