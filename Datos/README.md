@@ -1,6 +1,7 @@
 # Datos
 
 En esta Carpeta se guardaran los datos que se iran creando en el proyecto
+Los datos fueron obtenidos de la pagina kaggle: https://www.kaggle.com/datasets/clementeortuzar/resultados-primera-divisin-chile
 
 Este set de datos contiene seis variables:
 
