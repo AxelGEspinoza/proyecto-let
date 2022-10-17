@@ -2,6 +2,8 @@
 title: "¿Los equipos del fútbol chileno tienen rendimiento constante?"
 format: html
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 Todo aficionado al fútbol tiene un equipo favorito al cual apoya, este apoyo es en las buenas y en las malas, al cual le desea que gane siempre para que así se genere felicidad en ellos, si nos centramos en Chile podemos decir que resaltan 3 equipos cuyo nivel de popularidad es mayor (GFK Adimark), estos equipos son Colo-Colo, Universidad de Chile y Universidad Católica.
