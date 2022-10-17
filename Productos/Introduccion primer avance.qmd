@@ -1,7 +1,0 @@
----
-title: "Desempeño Futbol Chileno"
-format: html
-editor: visual
----
-
-## Introducción
