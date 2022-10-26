@@ -6,8 +6,12 @@ library(tidyr)
 library(stringr)
 library(ggplot2)
 library(forcats)
+library(gt)
+library(gtsummary)
+library(broom)
+library(lubridate)
 #Leer dato ----
-Datos <- read_csv("Datos/datos-desarrollo.csv")
+Datos <- read_csv("Datos/datos desarrollo.csv")
 
 #Prueba en Colo-Colo ----
 Colo_local <- Datos %>% 
@@ -43,11 +47,11 @@ puntos <- function(dato){
 
 #PRUEBA LA FUNCION CREADA CON LOS DATOS ANTERIORMENTE PROBADOS
 local <- Colo_local %>% 
-  filter(año == "2009") %>% 
+  filter(year(Date) == "2009") %>% 
   puntos()
 
 visita <- Colo_v %>% 
-  filter(año == "2009") %>% 
+  filter(year(Date) == "2009") %>% 
   puntos()
 
 rbind(local,visita) #interpretar bien donde esta cada dato
@@ -57,7 +61,7 @@ rbind(local,visita) #interpretar bien donde esta cada dato
 total <- c(local[1] + visita[3],local[2] + visita[2],local[3] + visita[1],local[4] + visita[6],local[5] + visita[5],local[6] + visita[4])
 
 #local[1] + visita[3] = PUNTOS GANADOS 
-#local[2] + visita[2] = PARTIDOS EMPATADOS
+#local[2] + visita[2] = PUNTOS EMPATADOS
 #local[3] + visita[1] = PUNTOS PERDIDOS
 #local[4] + visita[6] = PARTIDOS GANADOS
 #local[6] + visita[4] = PARTIDOS PERDIDOS
@@ -74,11 +78,11 @@ partidos <- function(equipo,anio){
     filter(AT == equipo)
   
   local <- Local %>% 
-    filter(año == anio) %>% 
+    filter(year(Date) == anio) %>% 
     puntos()
   
   visita <- Visita %>% 
-    filter(año == anio) %>% 
+    filter(year(Date) == anio) %>% 
     puntos()
   
   rbind(local,visita)
@@ -89,7 +93,7 @@ partidos <- function(equipo,anio){
   return(rbind(total))
 }
 
-equipo = "Universidad Catolica" 
+equipo = "Universidad de Chile" 
 anio = "2020"
 partido <- partidos(equipo,anio)
 for (i in 1:1){
@@ -155,15 +159,66 @@ for (i in 1:1){
     t_20 <- partido[4]+partido[5]+partido[6]
   }
 }
-
-ganados <- rbind(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20)
-empatados <- rbind(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
-perdidos <- rbind(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+mean(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+ganados <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+empatados <- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+perdidos <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+totales <- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
 #media de partidos por temporada
 
 años <- c(2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)
 
 
-ggplot() + geom_point(aes(x=años,y=ganados)) + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados UC", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = "Años",caption = "Promedio de Partidos por año: 34") + theme_bw()
+ggplot() + geom_point(aes(x=años,y=ganados)) + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados U. De Chile", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = "Años",caption = "Promedio de Partidos por año: 34") + theme_bw()
 
 ##CREAR TABLA CON GT
+
+tabla <- data.frame(años,cbind(ganados,empatados,perdidos,totales)) %>% gt()
+
+
+##Enfrentamientos
+## CC VS UC
+ccvsuc <- Datos %>% 
+  filter(HT == "Colo Colo", AT == "Universidad Catolica")
+ucvscc <- Datos %>% 
+  filter(HT == "Universidad Catolica",AT == "Colo Colo")
+
+re <- puntos(ccvsuc)
+er <- puntos(ucvscc)
+
+d1<- c(re[4] + er[6],re[5] + er[5],re[6] + er[4])
+cc <- c("Ganados CC", "Empatados", "Ganados UC")
+data.frame(cc,d1)
+
+tabla <- data.frame(cc,d1) %>% gt() %>% 
+  tab_header(title = "Enfrentamientos directos CC vs UC",subtitle = "Entre los años 2009 y 2020")
+tabla
+
+
+
+
+## CC VS U
+ccvsu <- Datos %>% 
+  filter(HT == "Colo Colo", AT == "Universidad de Chile")
+uvscc <- Datos %>% 
+  filter(HT == "Universidad de Chile",AT == "Colo Colo")
+
+ucc <- puntos(ccvsu)
+ccu <- puntos(uvscc)
+
+d2 <- c(ucc[4] + ccu[6],ucc[5] + ccu[5],ucc[6] + ccu[4])
+cu <- c("Ganados CC", "Empatados", "Ganados U")
+data.frame(cu,d2)
+
+## U VS UC
+ucvsu <- Datos %>% 
+  filter(HT == "Universidad Catolica", AT == "Universidad de Chile")
+uvsuc <- Datos %>% 
+  filter(HT == "Universidad de Chile",AT == "Universidad Catolica")
+
+ucu <- puntos(ucvsu)
+uuc <- puntos(uvsuc)
+
+d3 <- c(ucu[4] + uuc[6],ucu[5] + uuc[5],ucu[6] + uuc[4])
+uc <- c("Ganados UC", "Empatados", "Ganados U")
+data.frame(uc,d3)
