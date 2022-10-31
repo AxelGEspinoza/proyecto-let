@@ -93,7 +93,7 @@ partidos <- function(equipo,anio){
   return(rbind(total))
 }
 
-equipo = "Universidad de Chile" 
+equipo = "Colo Colo" 
 anio = "2020"
 partido <- partidos(equipo,anio)
 for (i in 1:1){
@@ -160,16 +160,26 @@ for (i in 1:1){
   }
 }
 mean(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
-ganados <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
-empatados <- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
-perdidos <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
-totales <- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+ganados_cc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+empatados_cc <- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+perdidos_cc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+totales_cc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
 #media de partidos por temporada
 
 años <- c(2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)
+Equipo <- c("Universidad de Chile","Colo Colo","Universidad Catolica")
+gana <- cbind(ganados_u,ganados_cc,ganados_uc)
+ganados <- data.frame(año=años,U=ganados_u,CC=ganados_cc,UC=ganados_uc)
 
 
-ggplot() + geom_point(aes(x=años,y=ganados)) + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados U. De Chile", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = "Años",caption = "Promedio de Partidos por año: 34") + theme_bw()
+ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(año,CC,color=Equipo[2])) + geom_line(aes(año,U,color=Equipo[1])) +
+  scale_y_continuous(limits = c(0,30))+
+  scale_x_continuous(breaks = seq(2009,2020,1)) +
+  scale_color_manual(values = c("black","skyblue","blue"))+
+  labs(title = "Partidos Ganados por los tres equipos más populares", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,color="Equipo:",caption = "Fuente: Elaboración propia a partir de datos disponibles en Kaggle") + 
+  theme_bw() +
+  theme(legend.position = "bottom")
+
 
 ##CREAR TABLA CON GT
 
