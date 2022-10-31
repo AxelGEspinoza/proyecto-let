@@ -171,7 +171,7 @@ Equipo <- c("Universidad de Chile","Colo Colo","Universidad Catolica")
 gana <- cbind(ganados_u,ganados_cc,ganados_uc)
 ganados <- data.frame(año=años,U=ganados_u,CC=ganados_cc,UC=ganados_uc)
 
-
+##Grafico para comparar resultados o rendimiento
 ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(año,CC,color=Equipo[2])) + geom_line(aes(año,U,color=Equipo[1])) +
   scale_y_continuous(limits = c(0,30))+
   scale_x_continuous(breaks = seq(2009,2020,1)) +
@@ -181,6 +181,12 @@ ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(añ
   theme(legend.position = "bottom")
 
 
+##Graficos por separado
+ggplot(ganados,aes(año,UC)) + geom_line(color = "skyblue")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados UC", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
+
+ggplot(ganados,aes(año,CC)) + geom_line(color = "black")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados Colo Colo", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
+
+ggplot(ganados,aes(año,U)) + geom_line(color = "blue")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados U de Chile", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
 ##CREAR TABLA CON GT
 
 tabla <- data.frame(años,cbind(ganados,empatados,perdidos,totales)) %>% gt()
