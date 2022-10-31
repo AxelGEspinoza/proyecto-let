@@ -93,10 +93,11 @@ partidos <- function(equipo,anio){
   return(rbind(total))
 }
 
-equipo = "Colo Colo" 
-anio = "2020"
-partido <- partidos(equipo,anio)
-for (i in 1:1){
+equipo = "Universidad Catolica" 
+
+for (i in 2009:2020){
+  anio=i
+  partido <- partidos(equipo,anio)
   if(anio == "2009"){
     g_09 <- partido[4]
     e_09 <- partido[5]
@@ -159,39 +160,46 @@ for (i in 1:1){
     t_20 <- partido[4]+partido[5]+partido[6]
   }
 }
+
 mean(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
-ganados_cc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
-empatados_cc <- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
-perdidos_cc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
-totales_cc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+ganados_uc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+empatados_uc<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+perdidos_uc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+totales_uc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+
+mean(ganados_cc)
+mean(ganados_u)
+mean(ganados_uc)
 #media de partidos por temporada
 
 años <- c(2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)
 Equipo <- c("Universidad de Chile","Colo Colo","Universidad Catolica")
-gana <- cbind(ganados_u,ganados_cc,ganados_uc)
+
 ganados <- data.frame(año=años,U=ganados_u,CC=ganados_cc,UC=ganados_uc)
 
 ##Grafico para comparar resultados o rendimiento
 ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(año,CC,color=Equipo[2])) + geom_line(aes(año,U,color=Equipo[1])) +
+  geom_vline(xintercept = 2019, color = "red",linetype = 2)+
+  geom_text(aes(2018,30,label = "Estallido social"),stat = "unique",color="red")+
   scale_y_continuous(limits = c(0,30))+
   scale_x_continuous(breaks = seq(2009,2020,1)) +
-  scale_color_manual(values = c("black","skyblue","blue"))+
-  labs(title = "Partidos Ganados por los tres equipos más populares", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,color="Equipo:",caption = "Fuente: Elaboración propia a partir de datos disponibles en Kaggle") + 
+  scale_color_manual(values = c("gray0","turquoise1","mediumblue"))+
+  labs(title = "Figura 1. Partidos Ganados por los tres equipos más populares", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,color="Equipo:",caption = "Fuente: Elaboración propia a partir de datos disponibles en Kaggle") + 
   theme_bw() +
   theme(legend.position = "bottom")
 
 
 ##Graficos por separado
-ggplot(ganados,aes(año,UC)) + geom_line(color = "skyblue")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados UC", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
+ggplot(ganados,aes(año,UC)) + geom_line(color = "turquoise1")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Figura 2. Partidos Ganados UC", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
 
-ggplot(ganados,aes(año,CC)) + geom_line(color = "black")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados Colo Colo", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
+ggplot(ganados,aes(año,CC)) + geom_line(color = "gray0")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Figura 3. Partidos Ganados Colo Colo", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
 
-ggplot(ganados,aes(año,U)) + geom_line(color = "blue")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados U de Chile", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
+ggplot(ganados,aes(año,U)) + geom_line(color = "mediumblue")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Figura 4. Partidos Ganados U de Chile", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
 ##CREAR TABLA CON GT
 
-tabla <- data.frame(años,cbind(ganados,empatados,perdidos,totales)) %>% gt()
-
-
+tabla_cc <- data.frame(años,cbind(ganados_cc,empatados_cc,perdidos_cc,totales_cc)) %>% gt()
+tabla_uc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt()
+tabla_u <- data.frame(años,cbind(ganados_u,empatados_u,perdidos_u,totales_u)) %>% gt()
 ##Enfrentamientos
 ## CC VS UC
 ccvsuc <- Datos %>% 
@@ -207,11 +215,10 @@ cc <- c("Ganados CC", "Empatados", "Ganados UC")
 data.frame(cc,d1)
 
 tabla <- data.frame(cc,d1) %>% gt() %>% 
-  tab_header(title = "Enfrentamientos directos CC vs UC",subtitle = "Entre los años 2009 y 2020")
+  tab_header(title = "Enfrentamientos directos CC vs UC",subtitle = "Entre los años 2009 y 2020") %>% 
+  cols_label(cc = "", d1 = "Cantidad")
+  
 tabla
-
-
-
 
 ## CC VS U
 ccvsu <- Datos %>% 
@@ -224,7 +231,10 @@ ccu <- puntos(uvscc)
 
 d2 <- c(ucc[4] + ccu[6],ucc[5] + ccu[5],ucc[6] + ccu[4])
 cu <- c("Ganados CC", "Empatados", "Ganados U")
-data.frame(cu,d2)
+
+tabla2 <- data.frame(cu,d2) %>% gt() %>% 
+  tab_header(title = "Enfrentamientos directos CC vs U",subtitle = "Entre los años 2009 y 2020") %>% 
+  cols_label(cu = "", d2 = "Cantidad")
 
 ## U VS UC
 ucvsu <- Datos %>% 
@@ -237,4 +247,7 @@ uuc <- puntos(uvsuc)
 
 d3 <- c(ucu[4] + uuc[6],ucu[5] + uuc[5],ucu[6] + uuc[4])
 uc <- c("Ganados UC", "Empatados", "Ganados U")
-data.frame(uc,d3)
+
+tabla3 <- data.frame(uc,d3) %>% gt() %>% 
+  tab_header(title = "Enfrentamientos directos UC vs U",subtitle = "Entre los años 2009 y 2020") %>% 
+  cols_label(uc = "", d3 = "Cantidad")
