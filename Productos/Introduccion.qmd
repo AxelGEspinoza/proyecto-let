@@ -13,3 +13,22 @@ Los hinchas de estos equipos mencionados anteriormente se preguntan: ¿Como le h
 Para lograr comprender mejor todos estos factores, se realizará un análisis a los datos de los resultados del futbol Chileno desde junio del año 2008 a mayo del año 2021. Se analizarán los factores tanto el juego de local, como el juego de visita, los enfrentamientos directos entre los clubes más populares, a su vez apoyado por la información de ANFP para saber qué equipo salió campeón ese año y si se relaciona con el rendimiento de los equipos analizados.
 
 Este proyecto se iniciará con la filtración por año para ver cada uno de los rendimientos de los equipos, luego se hará una comparación a nivel general de a cuál equipo le ha ido mejor a lo largo de los años y si esto se relaciona con la cantidad de campeonatos ganados en esos años. A su vez veremos si estos tienen un rendimiento constante a través de los años. Continuando se realizará una comparativa en los enfrentamientos directos entre los tres equipos antes mencionados. Una vez realizada la comparativa se concluirá ¿cual de estos equipos es el mejor del futbol chileno entre los años 2009 y 2020? en base a su rendimiento general y rendimiento frente a los otros dos clubes más populares del país.
+
+Para iniciar este proyecto se realizara un preprocesamiento de los datos para así poder trabajar de manera mas eficiente. Para ello a la variable `Date`,que en la base de datos original es de tipo `chr`, se le aplicara la función `dmy` de la libreria `lubridate` para que así la variable `Date` sea de tipo fecha. Realizado esto nuestra base de datos queda con las siguientes variables:
+
+```{r}
+#| echo: false
+#| message: false
+library(gt)
+library(gtsummary)
+library(dplyr)
+library(tidyr)
+```
+
+```{r}
+#| echo: false
+Variable <- c("DATE","HT","AT","HS","AS")
+Tipo <- c("Fecha","Caracter","Caracter","Númerica","Númerica")
+Descripcion <- c("Fecha exacta del Partido","Nombre del Equipo local","Nombre del Equipo de Visita","Goles del Equipo Local","Goles Equipo de Visita")
+data.frame(Variable,Tipo,Descripcion) %>% gt()
+```

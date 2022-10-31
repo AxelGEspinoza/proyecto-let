@@ -9,7 +9,7 @@ editor: visual
 ```
 
 ```{r}
-ggplot() + geom_point(aes(x=años,y=ganados)) + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados UC", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = "Años",caption = "Promedio de Partidos por año: 34") + theme_bw()
+ggplot() + geom_point(aes(x=años,y=ganados_uc)) + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados UC", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = "Años",caption = "Promedio de Partidos por año: 34") + theme_bw()
 ```
 
 ```{r}
@@ -22,7 +22,7 @@ tabla
 ```
 
 ```{r}
-ggplot() + geom_point(aes(x=años,y=ganados)) + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados Colo-Colo", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = "Años",caption = "Promedio de Partidos por año: 34") + theme_bw()
+ggplot() + geom_point(aes(x=años,y=ganados_cc)) + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Partidos Ganados Colo-Colo", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = "Años",caption = "Promedio de Partidos por año: 34") + theme_bw()
 ```
 
 ```{r}
