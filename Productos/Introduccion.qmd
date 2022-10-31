@@ -1,34 +1,210 @@
 ---
-title: "¿Los equipos del fútbol chileno tienen rendimiento constante?"
-format: html
+title: "¿Qué equipo del fútbol chileno tienen mejor rendimiento?"
+format: 
+  html:
+    code-fold: true
+    code-summary: "Código"
 editor: visual
 editor_options: 
   chunk_output_type: console
 ---
 
-Los aficionados al fútbol tienen un equipo favorito al cual apoya. Este apoyo es en las buenas y en las malas, al cual le desea que gane siempre para que así se genere felicidad en ellos. Si nos centramos en Chile podemos decir que resaltan tres equipos cuyo nivel de popularidad es mayor (GFK Adimark), estos equipos son Colo-Colo con 42%, Universidad de Chile con 21% y Universidad Católica con 8%.
+El fútbol en tierras chilenas comenzo en el año 1895 (memoria chilena.gob) cuando los marines e inmigrantes ingleses comenzaron a llegar y deslumbraban a las personas de Valparaiso con su apasionado juego. A partir de eso se comenzo a divulgar y popularisar a lo largo y ancho del territorio nacional, evolucionando hasta como lo conocemos hoy en día llegando a ser el deporte más popular de nuestro país. Si nos centramos en la fama de cada club podemos decir que resaltan tres equipos cuyo nivel de popularidad es mayor (GFK Adimark), estos equipos son Colo-Colo con 42%, Universidad de Chile con 21% y Universidad Católica con 8%.
 
-Los hinchas de estos equipos mencionados anteriormente se preguntan: ¿Como le ha ido a mi club históricamente en los campeonatos?, ¿Que rival es más fácil de vencer?, ¿Como le ha ido a mi equipo frente a los otros 2 clubes más populares?,¿Qué equipo es el mejor? responder estas preguntas resulta relevante, ya que nos podría guiar a los resultados que obtendrá el equipo que la gente apoya.
+Los equipos mencionados anteriormente se preguntan: ¿Como le ha ido al club históricamente en los campeonatos?, ¿Como le ha ido al equipo frente a los otros 2 clubes más populares?, ¿Qué equipo es el mejor? responder estas preguntas resulta relevante, ya que nos podría guiar a los resultados que obtendrá el equipo tanto a nivel historico como a futuro.
 
 Para lograr comprender mejor todos estos factores, se realizará un análisis a los datos de los resultados del futbol Chileno desde junio del año 2008 a mayo del año 2021. Se analizarán los factores tanto el juego de local, como el juego de visita, los enfrentamientos directos entre los clubes más populares, a su vez apoyado por la información de ANFP para saber qué equipo salió campeón ese año y si se relaciona con el rendimiento de los equipos analizados.
 
-Este proyecto se iniciará con la filtración por año para ver cada uno de los rendimientos de los equipos, luego se hará una comparación a nivel general de a cuál equipo le ha ido mejor a lo largo de los años y si esto se relaciona con la cantidad de campeonatos ganados en esos años. A su vez veremos si estos tienen un rendimiento constante a través de los años. Continuando se realizará una comparativa en los enfrentamientos directos entre los tres equipos antes mencionados. Una vez realizada la comparativa se concluirá ¿cual de estos equipos es el mejor del futbol chileno entre los años 2009 y 2020? en base a su rendimiento general y rendimiento frente a los otros dos clubes más populares del país.
+A modo de esclarecer cómo funciona el futbol chileno, se especificará cada tipo de campeonato que ha ocurrido en Chile. Iniciando por el formato de Playoff, este consiste en que se jueguen partidos todos contra todos solo una vez y se clasifican los primeros 8 a la siguiente fase, donde se enfrentan en partidos de ida y vuelta en llaves iniciando en cuartos de final así sucesivamente hasta llegar a la final, la cual también es a partido de ida y vuelta, a si el campeón se decide con el equipo que gane y/o tenga mejor diferencia de gol en los partidos de la final. El segundo tipo de torneos que se aplicó en el futbol Chileno fueron los torneos de apertura y clausura, en este tipo de torneos se enfrentan los equipos todos contra todos solo una vez, el equipo que consiguió más puntos se consagra campeón. Por último y el formato que tenemos actualmente es el de torneo largo, este consiste en partidos de ida y vuelta todos contra todos y el equipo que consigue más puntos es el que se consagra campeón.
 
-Para iniciar este proyecto se realizara un preprocesamiento de los datos para así poder trabajar de manera mas eficiente. Para ello a la variable `Date`,que en la base de datos original es de tipo `chr`, se le aplicara la función `dmy` de la libreria `lubridate` para que así la variable `Date` sea de tipo fecha. Realizado esto nuestra base de datos queda con las siguientes variables:
+Este proyecto se iniciará con la filtración por año para ver cada uno de los rendimientos de los equipos, luego se hará una comparación a nivel general de a cuál equipo le ha ido mejor a lo largo de los años y si esto se relaciona con la cantidad de campeonatos ganados en esos años. A su vez veremos si estos tienen un rendimiento constante a través de los años. Continuando se realizará una comparativa en los enfrentamientos directos entre los tres equipos antes mencionados. Una vez realizada la comparativa se concluirá ¿cúal de estos equipos es el mejor del futbol chileno entre los años 2009 y 2020? En base a su rendimiento general y rendimiento frente a los otros dos clubes más populares del país.
+
+Antes de iniciar este proyecto se realizara un preprocesamiento de los datos para así poder trabajar de manera mas eficiente. Para ello a la variable `Date`,que en la base de datos original es de tipo `chr`, se le aplicara la función `dmy` de la libreria `lubridate` para que así la variable `Date` sea de tipo fecha. Realizado esto nuestra base de datos queda con las siguientes variables:
 
 ```{r}
 #| echo: false
 #| message: false
+library(readxl)
+library(readr) 
+library(dplyr) 
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(forcats)
 library(gt)
 library(gtsummary)
-library(dplyr)
-library(tidyr)
+library(broom)
+library(lubridate)
 ```
 
 ```{r}
 #| echo: false
 Variable <- c("DATE","HT","AT","HS","AS")
 Tipo <- c("Fecha","Caracter","Caracter","Númerica","Númerica")
-Descripcion <- c("Fecha exacta del Partido","Nombre del Equipo local","Nombre del Equipo de Visita","Goles del Equipo Local","Goles Equipo de Visita")
+Descripcion <- c("Fecha exacta del Partido","Nombre del Equipo local","Nombre del Equipo de Visita","Goles Equipo Local","Goles Equipo de Visita")
 data.frame(Variable,Tipo,Descripcion) %>% gt()
+```
+
+```{r}
+#| echo: false
+#| message: false
+Datos <- read_csv("datos-desarrollo.csv")
+
+```
+
+Para comenzar el analisis de los datos se creo una funcion que calcula los resultados de los partidos de los equipos, es decir, en cada año se calculo la cantidad de partidos ganados, perdidos y empatados. Esta funcion fue aplicada a los equipos que se analizaran.
+
+```{r}
+puntos <- function(dato){
+  punL = 0
+  punV = 0
+  gano = 0
+  empa = 0
+  perdi = 0
+  for (i in 1:(length((dato$HT)))){
+  if (dato$HS[i] > dato$AS[i]){
+    punL = punL + 3
+    gano = gano + 1
+  }else if(dato$HS[i] == dato$AS[i]){
+    punL = punL + 1
+    punV = punV + 1
+    empa = empa + 1
+  }else {
+    punV = punV + 3
+    perdi = perdi +1
+  }}
+  pun = c(punL,empa,punV)
+  resultados = c(gano,empa,perdi)
+  return(c(pun,resultados))
+}
+```
+
+```{r}
+#| echo: false
+partidos <- function(equipo,anio){
+  Local <- Datos %>% 
+    filter(HT == equipo)  
+  
+  Visita <- Datos %>% 
+    filter(AT == equipo)
+  
+  local <- Local %>% 
+    filter(year(Date) == anio) %>% 
+    puntos()
+  
+  visita <- Visita %>% 
+    filter(year(Date) == anio) %>% 
+    puntos()
+  
+  rbind(local,visita)
+
+  
+  total <- c(local[1] + visita[3],local[2] + visita[2],local[3] + visita[1],local[4] + visita[6],local[5] + visita[5],local[6] + visita[4])
+  
+  return(rbind(total))
+}
+equipo = "Universidad Catolica" 
+
+for (i in 2009:2020){
+  anio=i
+  partido <- partidos(equipo,anio)
+  if(anio == "2009"){
+    g_09 <- partido[4]
+    e_09 <- partido[5]
+    p_09 <- partido[6]
+    t_09 <- partido[4]+partido[5]+partido[6]
+  }else if(anio == "2010"){
+    g_10 <- partido[4]
+    t_10 <- partido[4]+partido[5]+partido[6]
+    e_10 <- partido[5]
+    p_10 <- partido[6]
+  }else if(anio ==2011){
+    g_11 <- partido[4]
+    t_11 <- partido[4]+partido[5]+partido[6]
+    e_11 <- partido[5]
+    p_11 <- partido[6]
+  }else if(anio== 2012){
+    g_12 <- partido[4]
+    e_12 <- partido[5]
+    p_12 <- partido[6]
+    t_12 <- partido[4]+partido[5]+partido[6]
+  }else if(anio == 2013){
+    g_13 <- partido[4]
+    e_13 <- partido[5]
+    p_13 <- partido[6]
+    t_13 <- partido[4]+partido[5]+partido[6]
+  }else if(anio == 2014){
+    g_14 <- partido[4]
+    e_14 <- partido[5]
+    p_14 <- partido[6]
+    t_14 <- partido[4]+partido[5]+partido[6]
+  }else if(anio == 2015){
+    g_15 <- partido[4]
+    e_15 <- partido[5]
+    p_15 <- partido[6]
+    t_15 <- partido[4]+partido[5]+partido[6]
+  }else if(anio == 2016){
+    g_16 <- partido[4]
+    e_16 <- partido[5]
+    p_16 <- partido[6]
+    t_16 <- partido[4]+partido[5]+partido[6]
+  }else if(anio == 2017){
+    g_17 <- partido[4]
+    e_17 <- partido[5]
+    p_17 <- partido[6]
+    t_17 <- partido[4]+partido[5]+partido[6]
+  }else if(anio == 2018){
+    g_18 <- partido[4]
+    e_18 <- partido[5]
+    p_18 <- partido[6]
+    t_18 <- partido[4]+partido[5]+partido[6]
+  }else if(anio == 2019){
+    g_19 <- partido[4]
+    e_19 <- partido[5]
+    p_19 <- partido[6]
+    t_19 <- partido[4]+partido[5]+partido[6]
+  }else {
+    g_20 <- partido[4]
+    e_20 <- partido[5]
+    p_20 <- partido[6]
+    t_20 <- partido[4]+partido[5]+partido[6]
+  }
+}
+
+for (i in 1:1){
+  if (equipo == "Colo Colo"){
+    ganados_cc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+    empatados_cc<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+    perdidos_cc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+    totales_cc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+  }else if (equipo == "Universidad Catolica"){
+    ganados_uc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+    empatados_uc<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+    perdidos_uc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+    totales_uc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+  }else{
+    ganados_u <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+    empatados_u<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+    perdidos_u <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+    totales_u<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+  }
+}
+
+```
+
+Para poder realizar un analisis del rendimiento de estos clubes se creo el siguiente grafico con los partidos ganados:
+
+![](images/Grafico%20Partidos%20Ganados%20Equipos%20Populares.png){width="793"}
+
+Así podemos ver la cantidad de partidos ganados por estos clubes. Siendo el año 2013 el cambio de torneo con Playoffs a torneos cortos de apertura y clausura. Notamos que en la era de los Playoffs el equipo que dominó fue Universidad de Chile, la cual entre los años 2009 y 2013 obtuvo 4 campeonatos, seguidos de Colo-Colo y Universidad Catolica ambos con un campeonato en este tipo de campeonatos. En los torneos tipo apertura y clausura podemos obsevar que el equipo con mayor cantidad de partidos ganados fue Colo-Colo. Pero en termino de campeonatos cada equipo obtuvo 2. Llegando a la era de torneos largos podemos decir que el equipo más constante fue Universidad Catolica, junto con que Colo-Colo y Universidad de Chile estuvieron a la baja en terminos de rendimiento.
+
+Dicho esto no podemos decidir que equipo es el que a tenido un mejor rendimiento ya que cada uno de estos clubes a tenido su pick de rendimiento en distintas eras del fútbol Chileno. Para lograr llegar a la respuesta que se busca en este proyecto, analizaremos el rendimiento individual de estos equipos, tanto partidos ganados, perdidos y empatados.
+
+Partiremos analizando el rendimiento de Universidad Catolica, para esto veremos la siguiente tabla:
+
+```{r}
+años <- c(2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)
+tabla_uc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt() %>% tab_header(title = "Rendimiento UC",subtitle = "Entre los años 2009 y 2020") %>% 
+  cols_label(años = "Años", ganados_uc = "Ganados",empatados_uc = "Empatados",perdidos_uc = "Perdidos", totales_uc = "Total Partidos")
+tabla_uc
 ```
