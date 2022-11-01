@@ -13,14 +13,6 @@ library(lubridate)
 #Leer dato ----
 Datos <- read_csv("Datos/datos desarrollo.csv")
 
-#Prueba en Colo-Colo ----
-Colo_local <- Datos %>% 
-  filter(HT == "Colo Colo")
-
-Colo_v <- Datos %>% 
-  filter(AT == "Colo Colo") 
-  
-
 #creo dfuncion que lee y suma los puntos y resultados ----
 puntos <- function(dato){
   punL = 0
@@ -45,20 +37,7 @@ puntos <- function(dato){
   return(c(pun,resultados))
 }
 
-#PRUEBA LA FUNCION CREADA CON LOS DATOS ANTERIORMENTE PROBADOS
-local <- Colo_local %>% 
-  filter(year(Date) == "2009") %>% 
-  puntos()
 
-visita <- Colo_v %>% 
-  filter(year(Date) == "2009") %>% 
-  puntos()
-
-rbind(local,visita) #interpretar bien donde esta cada dato
-
-#CREO UNA TABLA DONDE SE PUEDAN APRECIAR LOS DATOS DE PARTIDOS GANADOS, EMPATADOS Y PERDIDOS EN EL AÑO FILTRADO
-
-total <- c(local[1] + visita[3],local[2] + visita[2],local[3] + visita[1],local[4] + visita[6],local[5] + visita[5],local[6] + visita[4])
 
 #local[1] + visita[3] = PUNTOS GANADOS 
 #local[2] + visita[2] = PUNTOS EMPATADOS
@@ -66,7 +45,6 @@ total <- c(local[1] + visita[3],local[2] + visita[2],local[3] + visita[1],local[
 #local[4] + visita[6] = PARTIDOS GANADOS
 #local[6] + visita[4] = PARTIDOS PERDIDOS
 
-rbind(total)
 
 
 #GENERALIZO LOS DATOS PARA IR VARIANDO EL EQUIPO----
@@ -214,12 +192,18 @@ ggplot(ganados,aes(año,CC)) + geom_line(color = "gray0")+geom_point(color = "da
 ggplot(ganados,aes(año,U)) + geom_line(color = "mediumblue")+geom_point(color = "darkblue") + scale_y_continuous(limits = c(0,30)) + scale_x_continuous(breaks = seq(2009,2020,1))+labs(title = "Figura 4. Partidos Ganados U de Chile", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,caption = "Promedio de Partidos por año: 34") + theme_bw()
 ##CREAR TABLA CON GT
 
-tabla_cc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt() %>% tab_header(title = "Rendimiento CC",subtitle = "Entre los años 2009 y 2020") %>% 
+tabla_cc <- data.frame(años,cbind(ganados_cc,empatados_cc,perdidos_cc,totales_cc)) %>% gt() %>% tab_header(title = "Rendimiento CC",subtitle = "Entre los años 2009 y 2020") %>% 
+  cols_label(años = "Años", ganados_cc = "Ganados",empatados_cc = "Empatados",perdidos_cc = "Perdidos", totales_cc = "Total Partidos")
+
+
+tabla_uc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% 
+  gt() %>%
+  tab_header(title = "Rendimiento UC",subtitle = "Entre los años 2009 y 2020") %>% 
   cols_label(años = "Años", ganados_uc = "Ganados",empatados_uc = "Empatados",perdidos_uc = "Perdidos", totales_uc = "Total Partidos")
-tabla_uc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt() %>% tab_header(title = "Rendimiento UC",subtitle = "Entre los años 2009 y 2020") %>% 
-  cols_label(años = "Años", ganados_uc = "Ganados",empatados_uc = "Empatados",perdidos_uc = "Perdidos", totales_uc = "Total Partidos")
-tabla_u <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt() %>% tab_header(title = "Rendimiento U",subtitle = "Entre los años 2009 y 2020") %>% 
-  cols_label(años = "Años", ganados_uc = "Ganados",empatados_uc = "Empatados",perdidos_uc = "Perdidos", totales_uc = "Total Partidos")
+
+
+tabla_u <- data.frame(años,cbind(ganados_u,empatados_u,perdidos_u,totales_u)) %>% gt() %>% tab_header(title = "Rendimiento U",subtitle = "Entre los años 2009 y 2020") %>% 
+  cols_label(años = "Años", ganados_u = "Ganados",empatados_u = "Empatados",perdidos_u = "Perdidos", totales_u = "Total Partidos")
 ##Enfrentamientos
 ## CC VS UC
 ccvsuc <- Datos %>% 
