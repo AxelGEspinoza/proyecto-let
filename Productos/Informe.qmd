@@ -297,29 +297,6 @@ promediouc <- data.frame(mean(glocal_uc),mean(gvisita_uc)) %>%
 promediouc
 ```
 
-Ahora generalizaremos los datos, es decir, nos gustaria saber como fue el rendimiento general de Universidad Catolica solo contando sus partidos ganados, perdidos y empatados. Para lograr visualizar esto se creo la siguiente tabla:
-
-```{r}
-tabla_uc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt() %>% tab_header(title = "Rendimiento UC",subtitle = "Entre los años 2009 y 2020") %>% 
-  cols_label(años = "Años", ganados_uc = "Ganados",empatados_uc = "Empatados",perdidos_uc = "Perdidos", totales_uc = "Total Partidos")
-tabla_uc
-```
-
-A modo de resumen, se promedio obteniendo:
-
-```{r}
-promedio_uc <- data.frame(mean(ganados_uc),mean(empatados_uc),mean(perdidos_uc)) %>% 
-  gt() %>%
-  tab_spanner(label = "Promedio",columns = 1:3) %>% 
-  tab_header(title = "Promedio rendimiento UC") %>% 
-  cols_label(mean.ganados_uc. = "Ganados",
-             mean.empatados_uc. = "Empatados",
-             mean.perdidos_uc. = "Perdidos")
-promedio_uc
-```
-
-Podemos notar que su promedio de partidos ganados por año es aproximadamente 18 y su promedio de partidos perdidos es de 7, es decir, pierden pocos partidos por año.
-
 Seguimos con el rendimiento de Colo-Colo. Al igual que con el equipo anterior se iniciara con su rendimiento tanto jugando de local como de visita.
 
 ```{r}
@@ -355,29 +332,6 @@ promediocc <- data.frame(mean(glocal_cc),mean(gvisita_cc)) %>%
 promediocc
 ```
 
-Ahora se generalizaremos los datos para los partidos ganados, empatados y perdidos. Para esto se creo la siguiente tabla:
-
-```{r}
-tabla_cc <- data.frame(años,cbind(ganados_cc,empatados_cc,perdidos_cc,totales_cc)) %>% gt() %>% tab_header(title = "Rendimiento CC",subtitle = "Entre los años 2009 y 2020") %>% 
-  cols_label(años = "Años", ganados_cc = "Ganados",empatados_cc = "Empatados",perdidos_cc = "Perdidos", totales_cc = "Total Partidos")
-tabla_cc
-```
-
-Al igual que en el caso anterior se creara una tabla resumen:
-
-```{r}
-promedio_cc <- data.frame(mean(ganados_cc),mean(empatados_cc),mean(perdidos_cc)) %>% 
-  gt() %>%
-  tab_spanner(label = "Promedio",columns = 1:3) %>% 
-  tab_header(title = "Promedio rendimiento CC") %>% 
-  cols_label(mean.ganados_cc. = "Ganados",
-             mean.empatados_cc. = "Empatados",
-             mean.perdidos_cc. = "Perdidos") 
-promedio_cc
-```
-
-Podemos notar que el promedio de partidos ganados de Colo-Colo es de 16 por año, lo cual es menor al promedio de Universidad Catolica. A su vez, Colo-Colo posee un mayor promedio de partidos perdidos, llegando esta a 9 partidos por año.
-
 Y finalmente realizaremos el mismo procedimiento para el club Universidad de Chile, iniciando por ver su rendimiento jugando de local y de visita.
 
 ```{r}
@@ -412,7 +366,55 @@ promediou <- data.frame(mean(glocal_u),mean(gvisita_u)) %>%
 promediou
 ```
 
-Ahora nos centraremos en ver su rendimiento general, para esto se presenta la siguiente tabla:
+## Generalizacion de analisis
+
+Ahora generalizaremos los datos, es decir, nos gustaria saber como fue el rendimiento general de Universidad Catolica solo contando sus partidos ganados, perdidos y empatados. Para lograr visualizar esto se creo la siguiente tabla:
+
+```{r}
+tabla_uc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt() %>% tab_header(title = "Rendimiento UC",subtitle = "Entre los años 2009 y 2020") %>% 
+  cols_label(años = "Años", ganados_uc = "Ganados",empatados_uc = "Empatados",perdidos_uc = "Perdidos", totales_uc = "Total Partidos")
+tabla_uc
+```
+
+A modo de resumen, se promedio obteniendo:
+
+```{r}
+promedio_uc <- data.frame(mean(ganados_uc),mean(empatados_uc),mean(perdidos_uc)) %>% 
+  gt() %>%
+  tab_spanner(label = "Promedio",columns = 1:3) %>% 
+  tab_header(title = "Promedio rendimiento UC") %>% 
+  cols_label(mean.ganados_uc. = "Ganados",
+             mean.empatados_uc. = "Empatados",
+             mean.perdidos_uc. = "Perdidos")
+promedio_uc
+```
+
+Podemos notar que su promedio de partidos ganados por año es aproximadamente 18 y su promedio de partidos perdidos es de 7, es decir, pierden pocos partidos por año.
+
+Ahora se generalizaremos los datos para los partidos ganados, empatados y perdidos del equipo Colo-Colo. Para esto se creo la siguiente tabla:
+
+```{r}
+tabla_cc <- data.frame(años,cbind(ganados_cc,empatados_cc,perdidos_cc,totales_cc)) %>% gt() %>% tab_header(title = "Rendimiento CC",subtitle = "Entre los años 2009 y 2020") %>% 
+  cols_label(años = "Años", ganados_cc = "Ganados",empatados_cc = "Empatados",perdidos_cc = "Perdidos", totales_cc = "Total Partidos")
+tabla_cc
+```
+
+Al igual que en el caso anterior se creara una tabla resumen:
+
+```{r}
+promedio_cc <- data.frame(mean(ganados_cc),mean(empatados_cc),mean(perdidos_cc)) %>% 
+  gt() %>%
+  tab_spanner(label = "Promedio",columns = 1:3) %>% 
+  tab_header(title = "Promedio rendimiento CC") %>% 
+  cols_label(mean.ganados_cc. = "Ganados",
+             mean.empatados_cc. = "Empatados",
+             mean.perdidos_cc. = "Perdidos") 
+promedio_cc
+```
+
+Podemos notar que el promedio de partidos ganados de Colo-Colo es de 16 por año, lo cual es menor al promedio de Universidad Catolica. A su vez, Colo-Colo posee un mayor promedio de partidos perdidos, llegando esta a 9 partidos por año.
+
+Ahora nos centraremos en ver el rendimiento general de Universidad de Chile, para esto se presenta la siguiente tabla:
 
 ```{r}
 tabla_u <- data.frame(años,cbind(ganados_u,empatados_u,perdidos_u,totales_u)) %>% gt() %>% tab_header(title = "Rendimiento U",subtitle = "Entre los años 2009 y 2020") %>% 
