@@ -9,9 +9,10 @@ toc: true
 editor_options: 
   chunk_output_type: console
 ---
-# Abstract
-En este proyecto se analizaran los rendimientos de los equipos más populares del fútbol chileno, se vera en base a sus partidos ganados, perdidos y empatados cual a sido el que posee un mejor promedio, a su vez se veran los enfrentamientos directos entre estos mismos clubes donde veremos como Universidad Catolica es el equipo que a dominado estos enfretamientos entre los años 2009 y 2020. 
 
+# Abstract
+
+En este proyecto se analizaran los rendimientos de los equipos más populares del fútbol chileno, se vera en base a sus partidos ganados, perdidos y empatados cual a sido el que posee un mejor promedio, a su vez se veran los enfrentamientos directos entre estos mismos clubes donde veremos como Universidad Catolica es el equipo que a dominado estos enfretamientos entre los años 2009 y 2020.
 
 # Introducción
 
@@ -66,26 +67,19 @@ Para comenzar el analisis de los datos se creo una funcion que calcula los resul
 
 ```{r}
 puntos <- function(dato){
-  punL = 0
-  punV = 0
   gano = 0
   empa = 0
   perdi = 0
   for (i in 1:(length((dato$HT)))){
   if (dato$HS[i] > dato$AS[i]){
-    punL = punL + 3
     gano = gano + 1
   }else if(dato$HS[i] == dato$AS[i]){
-    punL = punL + 1
-    punV = punV + 1
     empa = empa + 1
   }else {
-    punV = punV + 3
     perdi = perdi +1
   }}
-  pun = c(punL,empa,punV)
   resultados = c(gano,empa,perdi)
-  return(c(pun,resultados))
+  return(resultados)
 }
 ```
 
@@ -106,125 +100,212 @@ partidos <- function(equipo,anio){
     filter(year(Date) == anio) %>% 
     puntos()
   
-  rbind(local,visita)
-
-  
-  total <- c(local[1] + visita[3],local[2] + visita[2],local[3] + visita[1],local[4] + visita[6],local[5] + visita[5],local[6] + visita[4])
+  total <- c(local[1] + visita[3],local[2] + visita[2],local[3] + visita[1])
   
   return(rbind(total))
 }
+localia <- function(equipo,anio){
+  Local <- Datos %>% 
+    filter(HT == equipo)  
+  
+  Visita <- Datos %>% 
+    filter(AT == equipo)
+  
+  local <- Local %>% 
+    filter(year(Date) == anio) %>% 
+    puntos()
+  
+  visita <- Visita %>% 
+    filter(year(Date) == anio) %>% 
+    puntos()
+  return(rbind(local,visita))
+}
+
 Equipo <- c("Universidad de Chile","Colo Colo","Universidad Catolica")
 for (j in 1:3){
   for (i in 2009:2020){
     anio=i
     partido <- partidos(Equipo[j],anio)
+    lovi <- localia(Equipo[j],anio)
     if(anio == "2009"){
-      g_09 <- partido[4]
-      e_09 <- partido[5]
-      p_09 <- partido[6]
-      t_09 <- partido[4]+partido[5]+partido[6]
+      g_09 <- partido[1]
+      e_09 <- partido[2]
+      p_09 <- partido[3]
+      t_09 <- partido[1]+partido[2]+partido[3]
+      l_09 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_09 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
     }else if(anio == "2010"){
-      g_10 <- partido[4]
-      t_10 <- partido[4]+partido[5]+partido[6]
-      e_10 <- partido[5]
-      p_10 <- partido[6]
-    }else if(anio ==2011){
-      g_11 <- partido[4]
-      t_11 <- partido[4]+partido[5]+partido[6]
-      e_11 <- partido[5]
-      p_11 <- partido[6]
-    }else if(anio== 2012){
-      g_12 <- partido[4]
-      e_12 <- partido[5]
-      p_12 <- partido[6]
-      t_12 <- partido[4]+partido[5]+partido[6]
-    }else if(anio == 2013){
-      g_13 <- partido[4]
-      e_13 <- partido[5]
-      p_13 <- partido[6]
-      t_13 <- partido[4]+partido[5]+partido[6]
-    }else if(anio == 2014){
-      g_14 <- partido[4]
-      e_14 <- partido[5]
-      p_14 <- partido[6]
-      t_14 <- partido[4]+partido[5]+partido[6]
-    }else if(anio == 2015){
-      g_15 <- partido[4]
-      e_15 <- partido[5]
-      p_15 <- partido[6]
-      t_15 <- partido[4]+partido[5]+partido[6]
-    }else if(anio == 2016){
-      g_16 <- partido[4]
-      e_16 <- partido[5]
-      p_16 <- partido[6]
-      t_16 <- partido[4]+partido[5]+partido[6]
-    }else if(anio == 2017){
-      g_17 <- partido[4]
-      e_17 <- partido[5]
-      p_17 <- partido[6]
-      t_17 <- partido[4]+partido[5]+partido[6]
-    }else if(anio == 2018){
-      g_18 <- partido[4]
-      e_18 <- partido[5]
-      p_18 <- partido[6]
-      t_18 <- partido[4]+partido[5]+partido[6]
-    }else if(anio == 2019){
-      g_19 <- partido[4]
-      e_19 <- partido[5]
-      p_19 <- partido[6]
-      t_19 <- partido[4]+partido[5]+partido[6]
+      g_10 <- partido[1]
+      t_10 <- partido[1]+partido[2]+partido[3]
+      e_10 <- partido[2]
+      p_10 <- partido[3]
+      l_10 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_10 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio == "2011"){
+      g_11 <- partido[1]
+      t_11 <- partido[1]+partido[2]+partido[3]
+      e_11 <- partido[2]
+      p_11 <- partido[3]
+      l_11 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_11 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio== "2012"){
+      g_12 <- partido[1]
+      e_12 <- partido[2]
+      p_12 <- partido[3]
+      t_12 <- partido[1]+partido[2]+partido[3]
+      l_12 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_12 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio == "2013"){
+      g_13 <- partido[1]
+      e_13 <- partido[2]
+      p_13 <- partido[3]
+      t_13 <- partido[1]+partido[2]+partido[3]
+      l_13 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_13 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio == "2014"){
+      g_14 <- partido[1]
+      e_14 <- partido[2]
+      p_14 <- partido[3]
+      t_14 <- partido[1]+partido[2]+partido[3]
+      l_14 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_14 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio == "2015"){
+      g_15 <- partido[1]
+      e_15 <- partido[2]
+      p_15 <- partido[3]
+      t_15 <- partido[1]+partido[2]+partido[3]
+      l_15 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_15 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio == "2016"){
+      g_16 <- partido[1]
+      e_16 <- partido[2]
+      p_16 <- partido[3]
+      t_16 <- partido[1]+partido[2]+partido[3]
+      l_16 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_16 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio == "2017"){
+      g_17 <- partido[1]
+      e_17 <- partido[2]
+      p_17 <- partido[3]
+      t_17 <- partido[1]+partido[2]+partido[3]
+      l_17 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_17 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio == "2018"){
+      g_18 <- partido[1]
+      e_18 <- partido[2]
+      p_18 <- partido[3]
+      t_18 <- partido[1]+partido[2]+partido[3]
+      l_18 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_18 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
+    }else if(anio == "2019"){
+      g_19 <- partido[1]
+      e_19 <- partido[2]
+      p_19 <- partido[3]
+      t_19 <- partido[1]+partido[2]+partido[3]
+      l_19 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_19 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
     }else {
-      g_20 <- partido[4]
-      e_20 <- partido[5]
-      p_20 <- partido[6]
-      t_20 <- partido[4]+partido[5]+partido[6]
+      g_20 <- partido[1]
+      e_20 <- partido[2]
+      p_20 <- partido[3]
+      t_20 <- partido[1]+partido[2]+partido[3]
+      l_20 <- lovi[1]/(lovi[1]+lovi[3]+lovi[5])
+      v_20 <- lovi[6]/(lovi[2]+lovi[4]+lovi[6])
     }
   }
-  
-  for (i in 1:1){
-    if (Equipo[j] == "Colo Colo"){
-      ganados_cc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
-      empatados_cc<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
-      perdidos_cc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
-      totales_cc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
-    }else if (Equipo[j] == "Universidad Catolica"){
-      ganados_uc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
-      empatados_uc<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
-      perdidos_uc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
-      totales_uc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
-    }else{
-      ganados_u <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
-      empatados_u<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
-      perdidos_u <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
-      totales_u<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+    for (i in 1:1){
+      if (Equipo[j] == "Colo Colo"){
+        ganados_cc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+        empatados_cc<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+        perdidos_cc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+        totales_cc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+        glocal_cc <- c(l_09,l_10,l_11,l_12,l_13,l_14,l_15,l_16,l_17,l_18,l_19,l_20)
+        gvisita_cc <-c(v_09,v_10,v_11,v_12,v_13,v_14,v_15,v_16,v_17,v_18,v_19,v_20)
+      }else if (Equipo[j] == "Universidad Catolica"){
+        ganados_uc <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+        empatados_uc<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+        perdidos_uc <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+        totales_uc<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+        glocal_uc <- c(l_09,l_10,l_11,l_12,l_13,l_14,l_15,l_16,l_17,l_18,l_19,l_20)
+        gvisita_uc <-c(v_09,v_10,v_11,v_12,v_13,v_14,v_15,v_16,v_17,v_18,v_19,v_20)
+      }else{
+        ganados_u <- c(g_09,g_10,g_11,g_12,g_13,g_14,g_15,g_16,g_17,g_18,g_19,g_20) 
+        empatados_u<- c(e_09,e_10,e_11,e_12,e_13,e_14,e_15,e_16,e_17,e_18,e_19,e_20)
+        perdidos_u <- c(p_09,p_10,p_11,p_12,p_13,p_14,p_15,p_16,p_17,p_18,p_19,p_20)
+        totales_u<- c(t_09,t_10,t_11,t_12,t_13,t_14,t_15,t_16,t_17,t_18,t_19,t_20)
+        glocal_u <- c(l_09,l_10,l_11,l_12,l_13,l_14,l_15,l_16,l_17,l_18,l_19,l_20)
+        gvisita_u <-c(v_09,v_10,v_11,v_12,v_13,v_14,v_15,v_16,v_17,v_18,v_19,v_20)
+      }
     }
-  }
 }
-
+U <- data.frame(Local=(glocal_u)*100,Visita=(gvisita_u)*100)
+CC <- data.frame(Local=(glocal_cc)*100,Visita=(gvisita_cc)*100)
+UC <- data.frame(Local=(glocal_uc)*100,Visita=(gvisita_uc)*100)
 ```
 
 Para poder realizar un analisis del rendimiento de estos clubes se creo el siguiente grafico con los partidos ganados:
 
 ![](images/Grafico%20Partidos%20Ganados%20Equipos%20Populares.png){width="793"}
 
-Así podemos ver la cantidad de partidos ganados por estos clubes. Siendo el año 2013 el cambio de torneo con Playoffs a torneos cortos de apertura y clausura. Notamos que en la era de los Playoffs el equipo que dominó fue Universidad de Chile, la cual entre los años 2009 y 2013 obtuvo 4 campeonatos, seguidos de Colo-Colo y Universidad Catolica ambos con un campeonato en este tipo de campeonatos. 
-En los torneos con Apertura y Clausura podemos obsevar que el equipo con mayor cantidad de partidos ganados fue Colo-Colo. Pero en termino de campeonatos cada equipo obtuvo 2. 
-Llegando a la era de torneos largos podemos decir que el equipo más constante fue Universidad Catolica, junto con que Colo-Colo y Universidad de Chile estuvieron a la baja en terminos de rendimiento.
+Así podemos ver la cantidad de partidos ganados por estos clubes. Siendo el año 2013 el cambio de torneo con Playoffs a torneos cortos de apertura y clausura. Notamos que en la era de los Playoffs el equipo que dominó fue Universidad de Chile, la cual entre los años 2009 y 2013 obtuvo 4 campeonatos, seguidos de Colo-Colo y Universidad Catolica ambos con un campeonato en este tipo de campeonatos. En los torneos con Apertura y Clausura podemos obsevar que el equipo con mayor cantidad de partidos ganados fue Colo-Colo. Pero en termino de campeonatos cada equipo obtuvo 2. Llegando a la era de torneos largos podemos decir que el equipo más constante fue Universidad Catolica, junto con que Colo-Colo y Universidad de Chile estuvieron a la baja en terminos de rendimiento.
 
 Dicho esto no podemos decidir que equipo es el que a tenido un mejor rendimiento ya que cada uno de estos clubes a tenido su pick de rendimiento en distintas eras del fútbol Chileno. Para lograr llegar a la respuesta que se busca en este proyecto, analizaremos el rendimiento individual de estos equipos, tanto partidos ganados, perdidos y empatados.
 
 # Analisis Individual de los Equipos.
 
-Partiremos analizando el rendimiento de Universidad Catolica, para esto veremos la siguiente tabla:
+Partiremos analizando el rendimiento de Universidad Catolica, para esto veremos el rendimiento tanto en el juego de local como cuando el partido fue de visita:
+
+```{r}
+#| echo: false
+#| message: false
+require(gridExtra)
+```
 
 ```{r}
 años <- c(2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)
+p1 <- ggplot(UC, aes(años,Local,fill="turquoise1")) + geom_col() + 
+  scale_x_continuous(breaks = seq(2009,2020,2)) + 
+  scale_fill_manual(values="turquoise1") + 
+  scale_y_continuous(limits = c(0,100)) + 
+  theme(legend.position='none') + 
+  labs(title = "Rendimiento partidos local Universidad Catolica",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) + 
+  theme_bw() +
+  theme(legend.position='none')
+
+p2 <- ggplot(UC, aes(años,Visita,fill="turquoise1")) + geom_col() + 
+  scale_x_continuous(breaks = seq(2009,2020,2)) + 
+  scale_fill_manual(values="turquoise1") + 
+  scale_y_continuous(limits = c(0,100)) + 
+  theme(legend.position='none') + 
+  labs(title = "Rendimiento partidos visita Universidad Catolica",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) + 
+  theme_bw() +
+  theme(legend.position='none')
+
+grid.arrange(p1, p2, ncol=2)
+```
+
+Podemos notar que Universidad Catolica posee un rendimiento jugando de local bastante constante, en la mayoria de los años poseen un rendimiento sobre el 50% de victorias. Sin embargo cuando les toco jugar de visita este rendimiento no se logro mantener constante tiniendo años muy buenos como lo fueron los años 2013 y 2019 donde obtienen sobre un 70% de victorias. A su vez años malos como lo son los años 2017 y 2018 donde no logran alcanzar el 25% de victorias jugando de visitante.
+
+Para poder comparar estos rendimientos con los demas equipos se mostrara las siguiente tabla:
+
+```{r}
+promediouc <- data.frame(mean(glocal_uc),mean(gvisita_uc)) %>% 
+  gt() %>%
+  tab_header(title = "Promedio rendimiento UC") %>% 
+  cols_label(mean.glocal_uc. = "Local",
+             mean.gvisita_uc. = "Visita")
+promediouc
+```
+
+Ahora generalizaremos los datos, es decir, nos gustaria saber como fue el rendimiento general de Universidad Catolica solo contando sus partidos ganados, perdidos y empatados. Para lograr visualizar esto se creo la siguiente tabla:
+
+```{r}
 tabla_uc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt() %>% tab_header(title = "Rendimiento UC",subtitle = "Entre los años 2009 y 2020") %>% 
   cols_label(años = "Años", ganados_uc = "Ganados",empatados_uc = "Empatados",perdidos_uc = "Perdidos", totales_uc = "Total Partidos")
 tabla_uc
 ```
 
-A modo de resumen tenemos la siguiente tabla:
+A modo de resumen, se promedio obteniendo:
 
 ```{r}
 promedio_uc <- data.frame(mean(ganados_uc),mean(empatados_uc),mean(perdidos_uc)) %>% 
@@ -233,11 +314,48 @@ promedio_uc <- data.frame(mean(ganados_uc),mean(empatados_uc),mean(perdidos_uc))
   tab_header(title = "Promedio rendimiento UC") %>% 
   cols_label(mean.ganados_uc. = "Ganados",
              mean.empatados_uc. = "Empatados",
-             mean.perdidos_uc. = "Perdidos") 
+             mean.perdidos_uc. = "Perdidos")
 promedio_uc
 ```
 
-Seguimos con el rendimiento de Colo-Colo
+Podemos notar que su promedio de partidos ganados por año es aproximadamente 18 y su promedio de partidos perdidos es de 7, es decir, pierden pocos partidos por año.
+
+Seguimos con el rendimiento de Colo-Colo. Al igual que con el equipo anterior se iniciara con su rendimiento tanto jugando de local como de visita.
+
+```{r}
+p3 <- ggplot(CC, aes(años,Local,fill="mediumblue")) + geom_col() + 
+  scale_x_continuous(breaks = seq(2009,2020,2)) + 
+  scale_fill_manual(values="gray0") + 
+  scale_y_continuous(limits = c(0,100)) + 
+  theme(legend.position='none') + 
+  labs(title = "Rendimiento partidos local Colo-Colo",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) + 
+  theme_bw() +
+  theme(legend.position='none')
+
+p4 <- ggplot(CC, aes(años,Visita,fill="mediumblue")) + geom_col() + 
+  scale_x_continuous(breaks = seq(2009,2020,2)) + 
+  scale_fill_manual(values="gray0") + 
+  scale_y_continuous(limits = c(0,100)) + 
+  labs(title = "Rendimiento partidos visita Colo-Colo",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) + 
+  theme_bw() +
+  theme(legend.position='none')
+grid.arrange(p3, p4, ncol=2)
+```
+
+Notamos que Colo-Colo no posee un rendimiento constante por sobre el 50% en sus partidos de local como si lo tenia el anterior equipo, ya que en el año 2020 este apenas llega a 25% es más, podemos decir que su rendimiento en el año 2020 ha ido a la baja tanto jugando de local como de visita. Jugando de visita su rendimiento es bastante bajo, ya que, en solo 4 años logra superar el 50%.
+
+Al igual que en caso anterior para lograr comparar estos resultados se creo la siguiente tabla:
+
+```{r}
+promediocc <- data.frame(mean(glocal_cc),mean(gvisita_cc)) %>% 
+  gt() %>%
+  tab_header(title = "Rendimiento CC") %>% 
+  cols_label(mean.glocal_cc. = "Local",
+             mean.gvisita_cc. = "Visita")
+promediocc
+```
+
+Ahora se generalizaremos los datos para los partidos ganados, empatados y perdidos. Para esto se creo la siguiente tabla:
 
 ```{r}
 tabla_cc <- data.frame(años,cbind(ganados_cc,empatados_cc,perdidos_cc,totales_cc)) %>% gt() %>% tab_header(title = "Rendimiento CC",subtitle = "Entre los años 2009 y 2020") %>% 
@@ -245,7 +363,7 @@ tabla_cc <- data.frame(años,cbind(ganados_cc,empatados_cc,perdidos_cc,totales_c
 tabla_cc
 ```
 
-Al igual que antes se creara una tabla resumen:
+Al igual que en el caso anterior se creara una tabla resumen:
 
 ```{r}
 promedio_cc <- data.frame(mean(ganados_cc),mean(empatados_cc),mean(perdidos_cc)) %>% 
@@ -258,13 +376,51 @@ promedio_cc <- data.frame(mean(ganados_cc),mean(empatados_cc),mean(perdidos_cc))
 promedio_cc
 ```
 
-Y finalmente realizaremos el mismo procedimiento para la Universidad de Chile
+Podemos notar que el promedio de partidos ganados de Colo-Colo es de 16 por año, lo cual es menor al promedio de Universidad Catolica. A su vez, Colo-Colo posee un mayor promedio de partidos perdidos, llegando esta a 9 partidos por año.
+
+Y finalmente realizaremos el mismo procedimiento para el club Universidad de Chile, iniciando por ver su rendimiento jugando de local y de visita.
+
+```{r}
+p5 <- ggplot(U, aes(años,Local,fill="mediumblue")) + geom_col() + 
+  scale_x_continuous(breaks = seq(2009,2020,2)) + 
+  scale_fill_manual(values="mediumblue") + 
+  scale_y_continuous(limits = c(0,100)) + 
+  theme(legend.position='none') + 
+  labs(title = "Rendimiento partidos local Universidad de Chile",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) +
+  theme_bw() +
+  theme(legend.position='none')
+
+p6 <- ggplot(U, aes(años,Visita,fill="mediumblue")) + geom_col() + 
+  scale_x_continuous(breaks = seq(2009,2020,2)) + 
+  scale_fill_manual(values="mediumblue") + 
+  scale_y_continuous(limits = c(0,100)) + 
+  theme(legend.position='none') + 
+  labs(title = "Rendimiento partidos visita Universidad de Chile",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL)+
+  theme_bw() +
+  theme(legend.position='none')
+grid.arrange(p5, p6, ncol=2)
+```
+
+Vemos que el rendimiento jugando de local es más inconsistente que el rendimiento de los equipos anteriores teniendo varios años en los cuales no logra superar el 50% de victorias. Se puede ver que jugando de visita su rendimiento esta a la baja, aunque tenga repuntes en los años 2017 y 2018, anteriormente a este sus resultados jugando de visita tendian a la baja.
+
+```{r}
+promediou <- data.frame(mean(glocal_u),mean(gvisita_u)) %>% 
+  gt() %>%
+  tab_header(title = "Rendimiento U") %>% 
+  cols_label(mean.glocal_u. = "Local",
+             mean.gvisita_u. = "Visita")
+promediou
+```
+
+Ahora nos centraremos en ver su rendimiento general, para esto se presenta la siguiente tabla:
 
 ```{r}
 tabla_u <- data.frame(años,cbind(ganados_u,empatados_u,perdidos_u,totales_u)) %>% gt() %>% tab_header(title = "Rendimiento U",subtitle = "Entre los años 2009 y 2020") %>% 
   cols_label(años = "Años", ganados_u = "Ganados",empatados_u = "Empatados",perdidos_u = "Perdidos", totales_u = "Total Partidos")
 tabla_u
 ```
+
+A modo de resumen:
 
 ```{r}
 promedio_u <- data.frame(mean(ganados_u),mean(empatados_u),mean(perdidos_u)) %>% 
@@ -273,11 +429,15 @@ promedio_u <- data.frame(mean(ganados_u),mean(empatados_u),mean(perdidos_u)) %>%
   tab_header(title = "Promedio rendimiento U") %>% 
   cols_label(mean.ganados_u. = "Ganados",
              mean.empatados_u. = "Empatados",
-             mean.perdidos_u. = "Perdidos") 
+             mean.perdidos_u. = "Perdidos")
 promedio_u
 ```
 
-Comparando todas las tablas con el promedio de los rendimientos de estos equipos podemos decir que Universidad Catolica es el equipo más constante entre los años 2009 y 2020, ya que posee el mejor promedio de partidos ganados con aproximadamente 18 partidos ganados por año y tiene el promedio más bajo en partidos perdidos con aproximadamente 7 perdidos por año. 
+De la tabla anterior vemos que Universidad de Chile posee un promedio de 16 partidos ganados por año, aproximadamente mismo promedio que Colo-Colo, lo mismo sucede con la cantidad de partidos perdidos, ambos promedian aproximadamente 9 partidos perdidos por año.
+
+Comparando todas las tablas con el promedio de los rendimientos de estos equipos podemos decir que **Universidad Catolica es el equipo más constante entre los años 2009 y 2020,** ya que posee el mejor promedio de partidos ganados de local con un 65%, a su vez que posee el mejor rendimiento jugando de visita con un 45%, tambien posee el mejor promedio de partidos ganados por año con aproximadamente 18 partidos y tiene el promedio más bajo en partidos perdidos con aproximadamente 7 perdidos por año.
+
+Es por esto que Universidad Catolica es el equipo más constante.
 
 # Enfrentamientos directos
 
@@ -294,13 +454,12 @@ ucvscc <- Datos %>%
 re <- puntos(ccvsuc)
 er <- puntos(ucvscc)
 
-d1<- c(re[4] + er[6],re[5] + er[5],re[6] + er[4])
+d1<- c(re[1] + er[3],re[2] + er[2],re[3] + er[1])
 cc <- c("Ganados CC", "Empatados", "Ganados UC")
 
 tabla <- data.frame(cc,d1) %>% gt() %>% 
   tab_header(title = "Enfrentamientos directos CC vs UC",subtitle = "Entre los años 2009 y 2020") %>% 
   cols_label(cc = "", d1 = "Cantidad")
-  
 tabla
 ```
 
@@ -317,7 +476,7 @@ uvscc <- Datos %>%
 ucc <- puntos(ccvsu)
 ccu <- puntos(uvscc)
 
-d2 <- c(ucc[4] + ccu[6],ucc[5] + ccu[5],ucc[6] + ccu[4])
+d2 <- c(ucc[1] + ccu[3],ucc[2] + ccu[2],ucc[3] + ccu[1])
 cu <- c("Ganados CC", "Empatados", "Ganados U")
 
 tabla2 <- data.frame(cu,d2) %>% gt() %>% 
@@ -339,7 +498,7 @@ uvsuc <- Datos %>%
 ucu <- puntos(ucvsu)
 uuc <- puntos(uvsuc)
 
-d3 <- c(ucu[4] + uuc[6],ucu[5] + uuc[5],ucu[6] + uuc[4])
+d3 <- c(ucu[1] + uuc[3],ucu[2] + uuc[2],ucu[3] + uuc[1])
 uc <- c("Ganados UC", "Empatados", "Ganados U")
 
 tabla3 <- data.frame(uc,d3) %>% gt() %>% 
@@ -350,10 +509,12 @@ tabla3
 
 Podemos ver que Universidad Catolica es el equipo que predomina en este enfrentamiento. Al igual que contra Colo Colo, la "UC" posee 4 victorias más que su rival.
 
+Esto reafirma lo obtenido en los analisis indiviales de los equipos.
+
 # Conclusion
 
-Tal como se mostro a lo largo de este informe, vemos que los rendimientos de los equipos a lo largo de los años han sido bastante parejos, tanto en partidos ganamos como en titulos obtenidos. 
+Tal como se mostro a lo largo de este informe, vemos que los rendimientos de los equipos a lo largo de los años han sido bastante parejos, tanto en partidos ganamos como en titulos obtenidos.
 
-A partir del analisis individual y del analisis de los enfrentamientos directos de estos equipos, es posible afirmar que el club Universidad Catolica es aquel que posee un mejor rendimiento entre los años 2009 y 2020. 
+A partir del analisis individual y del analisis de los enfrentamientos directos de estos equipos, es posible afirmar que el club Universidad Catolica es aquel que posee un mejor rendimiento entre los años 2009 y 2020, basados en el promedio de partidos ganados, empatados y perdidos.
 
 Se sugiere volver a realizar este analisis con los datos y/o resultados de los años 2021 y 2022 con el fin de identificar posibles cambios en el rendimiento individual de los equipos tanto asi como un posible cambio en el equipo con mejor rendimiento.
