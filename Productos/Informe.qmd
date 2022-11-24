@@ -1,5 +1,6 @@
 ---
 title: "¿Qué equipo del fútbol chileno tienen mejor rendimiento?"
+author: "Axel González"
 format: 
   html:
     code-fold: true
@@ -12,21 +13,21 @@ editor_options:
 
 # Abstract
 
-En este proyecto se analizaran los rendimientos de los equipos más populares del fútbol chileno, se vera en base a sus partidos ganados, perdidos y empatados cual a sido el que posee un mejor promedio, a su vez se veran los enfrentamientos directos entre estos mismos clubes donde veremos como Universidad Catolica es el equipo que a dominado estos enfretamientos entre los años 2009 y 2020.
+Actualmente hay una lucha en el fútbol chileno para decidir cual a sido el equipo con mejor rendimiento de los últimos años. Con el fin de lograr esclarecer esta interrogante, se analizo el desempeño de los clubes Colo-Colo, Universidad Catolica y Universidad de Chile entre los años 2009 y 2020. Se concluye que el club con mejor rendimiento entre los años analizados es Universidad Catolica.
 
 # Introducción
 
-El fútbol en tierras chilenas comenzo en el año 1895 (memoria chilena.gob) cuando los marines e inmigrantes ingleses comenzaron a llegar y deslumbraban a las personas de Valparaiso con su apasionado juego. A partir de eso se comenzo a divulgar y popularisar a lo largo y ancho del territorio nacional, evolucionando hasta como lo conocemos hoy en día llegando a ser el deporte más popular de nuestro país. Si nos centramos en la fama de cada club podemos decir que resaltan tres equipos cuyo nivel de popularidad es mayor (GFK Adimark), estos equipos son Colo-Colo con 42%, Universidad de Chile con 21% y Universidad Católica con 8%.
+El fútbol en tierras chilenas comenzó en el año 1895 cuando los marines e inmigrantes ingleses comenzaron a llegar y deslumbraban a las personas de Valparaiso con su apasionado juego ([Memoria Chilena](http://www.memoriachilena.gob.cl/602/w3-article-635.html)). A partir de eso se empezó a divulgar y popularizar a lo largo y ancho del territorio nacional, evolucionando hasta como lo conocemos hoy en el que es el deporte más popular de nuestro país. Si nos centramos en la fama de cada club podemos decir que resaltan tres equipos cuyo nivel de popularidad es mayor (GFK Adimark), estos equipos son Colo-Colo con 42%, Universidad de Chile con 21% y Universidad Católica con 8%.
 
-Los equipos mencionados anteriormente se preguntan: ¿Como le ha ido al club históricamente en los campeonatos?, ¿Como le ha ido al equipo frente a los otros 2 clubes más populares?, ¿Qué equipo es el mejor? responder estas preguntas resulta relevante, ya que nos podría guiar a los resultados que obtendrá el equipo tanto a nivel historico como a futuro.
+Actualmente existen sientos de datos los cuales nos ayudan aLos equipos mencionados anteriormente se preguntan: ¿Como le ha ido al club históricamente en los campeonatos?, ¿como le ha ido al equipo frente a los otros 2 clubes más populares?, ¿qué equipo es el mejor? Responder estas preguntas resulta relevante, ya que nos podría guiar a los resultados que obtendrá el equipo tanto a nivel histórico como a futuro.
 
-Para lograr comprender mejor todos estos factores, se realizará un análisis a los datos de los resultados del futbol Chileno desde junio del año 2008 a mayo del año 2021. Se analizarán los factores tanto el juego de local, como el juego de visita, los enfrentamientos directos entre los clubes más populares, a su vez apoyado por la información de ANFP para saber qué equipo salió campeón ese año y si se relaciona con el rendimiento de los equipos analizados.
-
-A modo de esclarecer cómo funciona el futbol chileno, se especificará cada tipo de campeonato que ha ocurrido en Chile. Iniciando por el formato de Playoff, este consiste en que se jueguen partidos todos contra todos solo una vez y se clasifican los primeros 8 a la siguiente fase, donde se enfrentan en partidos de ida y vuelta en llaves iniciando en cuartos de final así sucesivamente hasta llegar a la final, la cual también es a partido de ida y vuelta, a si el campeón se decide con el equipo que gane y/o tenga mejor diferencia de gol en los partidos de la final. El segundo tipo de torneos que se aplicó en el futbol Chileno fueron los torneos de apertura y clausura, en este tipo de torneos se enfrentan los equipos todos contra todos solo una vez, el equipo que consiguió más puntos se consagra campeón. Por último y el formato que tenemos actualmente es el de torneo largo, este consiste en partidos de ida y vuelta todos contra todos y el equipo que consigue más puntos es el que se consagra campeón.
+Para lograr comprender mejor todos estos factores, se realizará un análisis a los datos de los resultados del fútbol chileno desde junio del año 2008 a mayo del año 2021. Se analizarán el desempeño tanto el juego de local, como el de visita, los enfrentamientos directos entre los clubes más populares y se complementara con la información de ANFP para saber qué equipo salió campeón ese año y si se relaciona con el rendimiento de los equipos analizados.
 
 Este proyecto se iniciará con la filtración por año para ver cada uno de los rendimientos de los equipos, luego se hará una comparación a nivel general de a cuál equipo le ha ido mejor a lo largo de los años y si esto se relaciona con la cantidad de campeonatos ganados en esos años. A su vez veremos si estos tienen un rendimiento constante a través de los años. Continuando se realizará una comparativa en los enfrentamientos directos entre los tres equipos antes mencionados. Una vez realizada la comparativa se concluirá ¿cúal de estos equipos es el mejor del futbol chileno entre los años 2009 y 2020? En base a su rendimiento general y rendimiento frente a los otros dos clubes más populares del país.
 
 # Preprocesamiento
+
+La base de datos que será utilizada proviene del sitio web [Kaggle](https://www.kaggle.com/datasets/clementeortuzar/resultados-primera-divisin-chile).
 
 Antes de iniciar este proyecto se realizara un preprocesamiento de los datos para así poder trabajar de manera mas eficiente. Para ello a la variable `Date`,que en la base de datos original es de tipo `chr`, se le aplicara la función `dmy` de la libreria `lubridate` para que así la variable `Date` sea de tipo fecha. Realizado esto nuestra base de datos queda con las siguientes variables:
 
@@ -54,6 +55,8 @@ Descripcion <- c("Fecha exacta del Partido","Nombre del Equipo local","Nombre de
 data.frame(Variable,Tipo,Descripcion) %>% gt()
 ```
 
+El [código](https://github.com/AxelGEspinoza/proyecto-let/blob/master/Codigo/Preprocesamiento.R) de preprocesamiento se encuentra disponible dentro del repositorio.
+
 ```{r}
 #| echo: false
 #| message: false
@@ -63,7 +66,15 @@ Datos <- read_csv("datos-desarrollo.csv")
 
 # Inicio Proyecto
 
-Para comenzar el analisis de los datos se creo una funcion que calcula los resultados de los partidos de los equipos, es decir, en cada año se calculo la cantidad de partidos ganados, perdidos y empatados. Esta funcion fue aplicada a los equipos que se analizaran.
+## Caracteristicas del Campeonato Chileno
+
+A modo de esclarecer cómo funciona el futbol chileno, se especificará cada tipo de campeonato que ha ocurrido en Chile. Iniciando por el formato de Playoff, este consiste en que se jueguen partidos todos contra todos solo una vez y se clasifican los primeros 8 a la siguiente fase, donde se enfrentan en partidos de ida y vuelta en llaves iniciando en cuartos de final así sucesivamente hasta llegar a la final, la cual también es a partido de ida y vuelta, a si el campeón se decide con el equipo que gane y/o tenga mejor diferencia de gol en los partidos de la final. El segundo tipo de torneos que se aplicó en el futbol Chileno fueron los torneos de apertura y clausura, en este tipo de torneos se enfrentan los equipos todos contra todos solo una vez, el equipo que consiguió más puntos se consagra campeón. Por último y el formato que tenemos actualmente es el de torneo largo, este consiste en partidos de ida y vuelta todos contra todos y el equipo que consigue más puntos es el que se consagra campeón.
+
+## Comparativa
+
+Los resultados que se mostraran a continuacion se iniciaron con la comparativa de los rendimientos de los equipos, para luego finalizar con el analisis individual de estos mismos.
+
+Para comenzar el analisis de los datos se creo una funcion que calcula los resultados de los partidos de los equipos, es decir, en cada año se calculo la cantidad de partidos ganados, perdidos y empatados. Esta funcion fue aplicada a los equipos que se analizarán.
 
 ```{r}
 puntos <- function(dato){
@@ -243,17 +254,17 @@ CC <- data.frame(Local=(glocal_cc)*100,Visita=(gvisita_cc)*100)
 UC <- data.frame(Local=(glocal_uc)*100,Visita=(gvisita_uc)*100)
 ```
 
-Para poder realizar un analisis del rendimiento de estos clubes se creo el siguiente grafico con los partidos ganados:
+Para poder realizar un analisis del rendimiento de estos clubes se creó el siguiente gráfico con los partidos ganados:
 
-![](images/Grafico%20Partidos%20Ganados%20Equipos%20Populares.png){width="793"}
+![](images/Grafico%20Partidos%20Ganados%20Equipos%20Populares-01.png)
 
 Así podemos ver la cantidad de partidos ganados por estos clubes. Siendo el año 2013 el cambio de torneo con Playoffs a torneos cortos de apertura y clausura. Notamos que en la era de los Playoffs el equipo que dominó fue Universidad de Chile, la cual entre los años 2009 y 2013 obtuvo 4 campeonatos, seguidos de Colo-Colo y Universidad Catolica ambos con un campeonato en este tipo de campeonatos. En los torneos con Apertura y Clausura podemos obsevar que el equipo con mayor cantidad de partidos ganados fue Colo-Colo. Pero en termino de campeonatos cada equipo obtuvo 2. Llegando a la era de torneos largos podemos decir que el equipo más constante fue Universidad Catolica, junto con que Colo-Colo y Universidad de Chile estuvieron a la baja en terminos de rendimiento.
 
-Dicho esto no podemos decidir que equipo es el que a tenido un mejor rendimiento ya que cada uno de estos clubes a tenido su pick de rendimiento en distintas eras del fútbol Chileno. Para lograr llegar a la respuesta que se busca en este proyecto, analizaremos el rendimiento individual de estos equipos, tanto partidos ganados, perdidos y empatados.
+En función de lo anterior resulta difícil decidir qué equipo es el que a tenido un mejor rendimiento, ya que, cada uno de estos clubes ha tenido su pick de rendimiento en distintas eras del fútbol chileno. Para lograr llegar a la respuesta que se busca en este proyecto, analizarmos el rendimiento individual de estos equipos, en terminos de partidos ganados, perdidos y empatados.
 
-# Analisis Individual de los Equipos.
+## Análisis individual de los equipos.
 
-Partiremos analizando el rendimiento de Universidad Catolica, para esto veremos el rendimiento tanto en el juego de local como cuando el partido fue de visita:
+Partiremos analizando el rendimiento de Universidad Catolica, para esto veremos el rendimiento tanto en el juego de local como cuando el partido fue de visita. Para ellos se crearon los siguientes gráficos:
 
 ```{r}
 #| echo: false
@@ -268,7 +279,8 @@ p1 <- ggplot(UC, aes(años,Local,fill="turquoise1")) + geom_col() +
   scale_fill_manual(values="turquoise1") + 
   scale_y_continuous(limits = c(0,100)) + 
   theme(legend.position='none') + 
-  labs(title = "Rendimiento partidos local Universidad Catolica",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) + 
+  labs(title = "Figura 2. Rendimiento partidos local 
+       Universidad Catolica",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL,caption = "Fuente: Elaboración propia") + 
   theme_bw() +
   theme(legend.position='none')
 
@@ -277,25 +289,30 @@ p2 <- ggplot(UC, aes(años,Visita,fill="turquoise1")) + geom_col() +
   scale_fill_manual(values="turquoise1") + 
   scale_y_continuous(limits = c(0,100)) + 
   theme(legend.position='none') + 
-  labs(title = "Rendimiento partidos visita Universidad Catolica",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) + 
+  labs(title = "Figura 3. Rendimiento partidos visita
+       Universidad Catolica",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL,caption = "Fuente: Elaboración propia") + 
   theme_bw() +
   theme(legend.position='none')
 
 grid.arrange(p1, p2, ncol=2)
 ```
 
-Podemos notar que Universidad Catolica posee un rendimiento jugando de local bastante constante, en la mayoria de los años poseen un rendimiento sobre el 50% de victorias. Sin embargo cuando les toco jugar de visita este rendimiento no se logro mantener constante tiniendo años muy buenos como lo fueron los años 2013 y 2019 donde obtienen sobre un 70% de victorias. A su vez años malos como lo son los años 2017 y 2018 donde no logran alcanzar el 25% de victorias jugando de visitante.
+Podemos notar que Universidad Catolica posee un rendimiento jugando de local bastante constante, en la mayoria de los años poseen un rendimiento sobre el 50% de victorias. Sin embargo cuando les toco jugar de visita este rendimiento no se logro mantener constante tiniendo años muy buenos como lo fueron los años 2013 y 2019 donde obtienen sobre un 70% de victorias, a su vez años malos como lo son los años 2017 y 2018 donde no logran alcanzar el 25% de victorias jugando de visitante.
 
 Para poder comparar estos rendimientos con los demas equipos se mostrara las siguiente tabla:
 
 ```{r}
-promediouc <- data.frame(mean(glocal_uc),mean(gvisita_uc)) %>% 
+ll <- round(mean(glocal_uc),digits = 2) 
+vv <- round(mean(gvisita_uc),digits = 2)
+promediouc <- data.frame(ll,vv) %>% 
   gt() %>%
   tab_header(title = "Promedio rendimiento UC") %>% 
-  cols_label(mean.glocal_uc. = "Local",
-             mean.gvisita_uc. = "Visita")
+  cols_label(ll = "Local",
+             vv = "Visita")
 promediouc
 ```
+
+Podemos ver que Universidad Catolica posee un rendimiento de local bastante alto, es decir, este equipo gana el 65% de los partidos en condición de local, a su vez podemos ver que solo alcanza el 45% de victorias cuando es en condición de visita.
 
 Seguimos con el rendimiento de Colo-Colo. Al igual que con el equipo anterior se iniciara con su rendimiento tanto jugando de local como de visita.
 
@@ -305,15 +322,16 @@ p3 <- ggplot(CC, aes(años,Local,fill="mediumblue")) + geom_col() +
   scale_fill_manual(values="gray0") + 
   scale_y_continuous(limits = c(0,100)) + 
   theme(legend.position='none') + 
-  labs(title = "Rendimiento partidos local Colo-Colo",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) + 
+  labs(title = "Figura 4. Rendimiento partidos local 
+       Colo-Colo",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL,caption = "Fuente: Elaboración propia") + 
   theme_bw() +
   theme(legend.position='none')
-
 p4 <- ggplot(CC, aes(años,Visita,fill="mediumblue")) + geom_col() + 
   scale_x_continuous(breaks = seq(2009,2020,2)) + 
   scale_fill_manual(values="gray0") + 
   scale_y_continuous(limits = c(0,100)) + 
-  labs(title = "Rendimiento partidos visita Colo-Colo",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) + 
+  labs(title = "Figura 5. Rendimiento partidos visita 
+       Colo-Colo",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL,caption = "Fuente: Elaboración propia") + 
   theme_bw() +
   theme(legend.position='none')
 grid.arrange(p3, p4, ncol=2)
@@ -324,13 +342,17 @@ Notamos que Colo-Colo no posee un rendimiento constante por sobre el 50% en sus 
 Al igual que en caso anterior para lograr comparar estos resultados se creo la siguiente tabla:
 
 ```{r}
-promediocc <- data.frame(mean(glocal_cc),mean(gvisita_cc)) %>% 
+ll <- round(mean(glocal_cc),digits = 2) 
+vv <- round(mean(gvisita_cc),digits = 2)
+promediocc <- data.frame(ll,vv) %>% 
   gt() %>%
   tab_header(title = "Rendimiento CC") %>% 
-  cols_label(mean.glocal_cc. = "Local",
-             mean.gvisita_cc. = "Visita")
+  cols_label(ll = "Local",
+             vv = "Visita")
 promediocc
 ```
+
+Podemos concluir de la tabla anterior que Colo-Colo alcanza el 55% de victorias cuando juega de local y solo un 44% de estas mismas cuando le ha tocado jugar de forastero.
 
 Y finalmente realizaremos el mismo procedimiento para el club Universidad de Chile, iniciando por ver su rendimiento jugando de local y de visita.
 
@@ -340,7 +362,8 @@ p5 <- ggplot(U, aes(años,Local,fill="mediumblue")) + geom_col() +
   scale_fill_manual(values="mediumblue") + 
   scale_y_continuous(limits = c(0,100)) + 
   theme(legend.position='none') + 
-  labs(title = "Rendimiento partidos local Universidad de Chile",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL) +
+  labs(title = "Figura 6. Rendimiento partidos local 
+       Universidad de Chile",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL,caption = "Fuente: Elaboración propia") +
   theme_bw() +
   theme(legend.position='none')
 
@@ -349,7 +372,8 @@ p6 <- ggplot(U, aes(años,Visita,fill="mediumblue")) + geom_col() +
   scale_fill_manual(values="mediumblue") + 
   scale_y_continuous(limits = c(0,100)) + 
   theme(legend.position='none') + 
-  labs(title = "Rendimiento partidos visita Universidad de Chile",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL)+
+  labs(title = "Figura 7. Rendimiento partidos visita
+       Universidad de Chile",subtitle = "Entre los años 2009 y 2020", y = "Porcentaje", x = NULL,caption = "Fuente: Elaboración propia")+
   theme_bw() +
   theme(legend.position='none')
 grid.arrange(p5, p6, ncol=2)
@@ -358,80 +382,71 @@ grid.arrange(p5, p6, ncol=2)
 Vemos que el rendimiento jugando de local es más inconsistente que el rendimiento de los equipos anteriores teniendo varios años en los cuales no logra superar el 50% de victorias. Se puede ver que jugando de visita su rendimiento esta a la baja, aunque tenga repuntes en los años 2017 y 2018, anteriormente a este sus resultados jugando de visita tendian a la baja.
 
 ```{r}
-promediou <- data.frame(mean(glocal_u),mean(gvisita_u)) %>% 
+ll <- round(mean(glocal_u),digits = 2) 
+vv <- round(mean(gvisita_u),digits = 2)
+promediou <- data.frame(ll,vv) %>% 
   gt() %>%
   tab_header(title = "Rendimiento U") %>% 
-  cols_label(mean.glocal_u. = "Local",
-             mean.gvisita_u. = "Visita")
+  cols_label(ll = "Local",
+             vv = "Visita")
 promediou
 ```
 
-## Generalizacion de analisis
+Universidad de Chile solo alcanza el 43% de victorias cuando les ha tocado jugar de visita, este es el promedio más bajo de los 3 clubes, a su ves la "U" solo logra alcanzar el 51% de victorias cuando juega en condición de local, lo cual es tambien el promedio más bajo de los equipos analizados.
+
+Por lo mencionado anterior podemos concluir que Universidad Catolica es el equipo que posee mejor rendimiento jugando tanto de local como de visita.
+
+## Generalización de análisis
 
 Ahora generalizaremos los datos, es decir, nos gustaria saber como fue el rendimiento general de Universidad Catolica solo contando sus partidos ganados, perdidos y empatados. Para lograr visualizar esto se creo la siguiente tabla:
 
 ```{r}
-tabla_uc <- data.frame(años,cbind(ganados_uc,empatados_uc,perdidos_uc,totales_uc)) %>% gt() %>% tab_header(title = "Rendimiento UC",subtitle = "Entre los años 2009 y 2020") %>% 
-  cols_label(años = "Años", ganados_uc = "Ganados",empatados_uc = "Empatados",perdidos_uc = "Perdidos", totales_uc = "Total Partidos")
-tabla_uc
-```
-
-A modo de resumen, se promedio obteniendo:
-
-```{r}
-promedio_uc <- data.frame(mean(ganados_uc),mean(empatados_uc),mean(perdidos_uc)) %>% 
+gg <- round(mean(ganados_uc),digits = 0)
+ee <- round(mean(empatados_uc),digits = 0)
+pp <- round(mean(perdidos_uc),digits = 0)
+promedio_uc <- data.frame(gg,ee,pp) %>% 
   gt() %>%
   tab_spanner(label = "Promedio",columns = 1:3) %>% 
   tab_header(title = "Promedio rendimiento UC") %>% 
-  cols_label(mean.ganados_uc. = "Ganados",
-             mean.empatados_uc. = "Empatados",
-             mean.perdidos_uc. = "Perdidos")
+  cols_label(gg = "Ganados",
+             ee = "Empatados",
+             pp = "Perdidos")
 promedio_uc
 ```
 
 Podemos notar que su promedio de partidos ganados por año es aproximadamente 18 y su promedio de partidos perdidos es de 7, es decir, pierden pocos partidos por año.
 
-Ahora se generalizaremos los datos para los partidos ganados, empatados y perdidos del equipo Colo-Colo. Para esto se creo la siguiente tabla:
+Ahora se continuara con los datos para los partidos ganados, empatados y perdidos del equipo Colo-Colo. Para esto se creo la siguiente tabla:
 
 ```{r}
-tabla_cc <- data.frame(años,cbind(ganados_cc,empatados_cc,perdidos_cc,totales_cc)) %>% gt() %>% tab_header(title = "Rendimiento CC",subtitle = "Entre los años 2009 y 2020") %>% 
-  cols_label(años = "Años", ganados_cc = "Ganados",empatados_cc = "Empatados",perdidos_cc = "Perdidos", totales_cc = "Total Partidos")
-tabla_cc
-```
-
-Al igual que en el caso anterior se creara una tabla resumen:
-
-```{r}
-promedio_cc <- data.frame(mean(ganados_cc),mean(empatados_cc),mean(perdidos_cc)) %>% 
+gg <- round(mean(ganados_cc),digits = 0)
+ee <- round(mean(empatados_cc),digits = 0)
+pp <- round(mean(perdidos_cc),digits = 0)
+promedio_cc <- data.frame(gg,ee,pp) %>% 
   gt() %>%
   tab_spanner(label = "Promedio",columns = 1:3) %>% 
   tab_header(title = "Promedio rendimiento CC") %>% 
-  cols_label(mean.ganados_cc. = "Ganados",
-             mean.empatados_cc. = "Empatados",
-             mean.perdidos_cc. = "Perdidos") 
+  cols_label(gg = "Ganados",
+             ee = "Empatados",
+             pp = "Perdidos") 
 promedio_cc
 ```
 
 Podemos notar que el promedio de partidos ganados de Colo-Colo es de 16 por año, lo cual es menor al promedio de Universidad Catolica. A su vez, Colo-Colo posee un mayor promedio de partidos perdidos, llegando esta a 9 partidos por año.
 
-Ahora nos centraremos en ver el rendimiento general de Universidad de Chile, para esto se presenta la siguiente tabla:
+Ahora nos centraremos en ver el rendimiento de Universidad de Chile, para esto se presenta la siguiente tabla:
 
 ```{r}
-tabla_u <- data.frame(años,cbind(ganados_u,empatados_u,perdidos_u,totales_u)) %>% gt() %>% tab_header(title = "Rendimiento U",subtitle = "Entre los años 2009 y 2020") %>% 
-  cols_label(años = "Años", ganados_u = "Ganados",empatados_u = "Empatados",perdidos_u = "Perdidos", totales_u = "Total Partidos")
-tabla_u
-```
-
-A modo de resumen:
-
-```{r}
-promedio_u <- data.frame(mean(ganados_u),mean(empatados_u),mean(perdidos_u)) %>% 
+gg <- round(mean(ganados_u),digits = 0)
+ee <- round(mean(empatados_u),digits = 0)
+pp <- round(mean(perdidos_u),digits = 0)
+promedio_u <- data.frame(gg,ee,pp) %>% 
   gt() %>%
   tab_spanner(label = "Promedio",columns = 1:3) %>% 
   tab_header(title = "Promedio rendimiento U") %>% 
-  cols_label(mean.ganados_u. = "Ganados",
-             mean.empatados_u. = "Empatados",
-             mean.perdidos_u. = "Perdidos")
+  cols_label(gg = "Ganados",
+             ee = "Empatados",
+             pp = "Perdidos")
 promedio_u
 ```
 
@@ -441,9 +456,9 @@ Comparando todas las tablas con el promedio de los rendimientos de estos equipos
 
 Es por esto que Universidad Catolica es el equipo más constante.
 
-# Enfrentamientos directos
+## Enfrentamientos directos
 
-Ahora bien, este rendimiento ¿Seguira siendo el mejor equipo cuando se ve enfrentado a los otros dos equipos?. Para responder esta pregunta se realizaran tablas en las cuales se vera que equipo tiene el mejor rendimiento a la hora de enfrentarse a sus 2 más grandes rivales.
+Ahora bien, este club ¿Seguirá siendo el mejor equipo cuando se ve enfrentado a los otros dos equipos?. Para responder esta pregunta se realizaran tablas en las cuales se vera que equipo tiene el mejor rendimiento a la hora de enfrentarse a sus 2 más grandes rivales.
 
 Se iniciara con el enfrentamiento entre Colo-Colo y Universidad Catolica.
 
@@ -465,9 +480,9 @@ tabla <- data.frame(cc,d1) %>% gt() %>%
 tabla
 ```
 
-Viendo esta tabla, aunque por una diferencia de 4 partidos, se llega a la conclusion que entre los años 2009 y 2020, Universidad Catolica es el club que a dominado este ya denominado "Clásico".
+Viendo esta tabla, aunque por una diferencia de 4 partidos, se llega a la conclusion que entre los años 2009 y 2020, Universidad Catolica es el club que ha dominado este ya denominado "Clásico".
 
-Continuaremos con el denominado Superclasico del fútbol Chileno, es decir, los enfrentamientos entre Colo-Colo y Universidad de Chile.
+Continuaremos con el denominado Superclasico del fútbol chileno, es decir, los enfrentamientos entre Colo-Colo y Universidad de Chile.
 
 ```{r}
 ccvsu <- Datos %>% 
@@ -487,9 +502,9 @@ tabla2 <- data.frame(cu,d2) %>% gt() %>%
 tabla2
 ```
 
-Analisando los resultados de la tabla anterior, llegamos a la conclusion que existe un dominio bastante notorio por parte de Colo-Colo frente a Universidad de Chile, es decir, en enfrentamientos directos Colo-Colo tiene un mejor rendimiento.
+Analizando los resultados de la tabla anterior, llegamos a la conclusion que existe un dominio bastante notorio por parte de Colo-Colo frente a Universidad de Chile, es decir, en enfrentamientos directos Colo-Colo tiene un mejor rendimiento.
 
-Finalizamos con el denominado "Clásico Universitario", Universidad Catolica contra Universidad de Chile.
+Finalizamos con el denominado "Clásico Universitario", es decir, los partidos de Universidad Catolica contra Universidad de Chile.
 
 ```{r}
 ucvsu <- Datos %>% 
@@ -513,7 +528,7 @@ Podemos ver que Universidad Catolica es el equipo que predomina en este enfrenta
 
 Esto reafirma lo obtenido en los analisis indiviales de los equipos.
 
-# Conclusion
+# Conclusión
 
 Tal como se mostro a lo largo de este informe, vemos que los rendimientos de los equipos a lo largo de los años han sido bastante parejos, tanto en partidos ganamos como en titulos obtenidos.
 

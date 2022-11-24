@@ -274,9 +274,9 @@ Equipo <- c("Universidad de Chile","Colo Colo","Universidad Catolica")
 ganados <- data.frame(año=años,U=ganados_u,CC=ganados_cc,UC=ganados_uc)
 
 ##Grafico para comparar resultados o rendimiento
-ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + 
-  geom_line(aes(año,CC,color=Equipo[2])) + 
-  geom_line(aes(año,U,color=Equipo[1])) +
+ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line(lwd = 1) + 
+  geom_line(aes(año,CC,color=Equipo[2]),lwd = 1) + 
+  geom_line(aes(año,U,color=Equipo[1]),lwd = 1) +
   geom_vline(xintercept = 2013, color = "red",linetype = 2)+
   geom_text(aes(2012,5,label = "Fin de Playoffs"),stat = "unique",color="red")+
   geom_vline(xintercept = 2017, color = "green",linetype = 2)+
