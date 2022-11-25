@@ -25,7 +25,7 @@ library(lubridate)
 #| echo: false
 #| message: false
 
-Datos <- read_csv("datos-desarrollo.csv")
+Datos <- read_csv((here::here("Datos/datos-desarrollo.csv")))
 ```
 
 ```{r}
@@ -187,7 +187,9 @@ Esta base de datos contiene la informacion de los resultados del futbol chileno 
 ## Rendimiento
 
 ```{r}
-ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(año,CC,color=Equipo[2])) + geom_line(aes(año,U,color=Equipo[1])) +
+ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line(lwd = 1) + 
+  geom_line(aes(año,CC,color=Equipo[2]),lwd = 1) + 
+  geom_line(aes(año,U,color=Equipo[1]),lwd = 1) +
   geom_vline(xintercept = 2013, color = "red",linetype = 2)+
   geom_text(aes(2012,5,label = "Fin de Playoffs"),stat = "unique",color="red")+
   geom_vline(xintercept = 2017, color = "green",linetype = 2)+
@@ -196,6 +198,7 @@ ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(añ
   scale_x_continuous(breaks = seq(2009,2020,1)) +
   scale_color_manual(values = c("gray0","turquoise1","mediumblue"))+
   labs(title = "Figura 1. Partidos Ganados por los tres equipos más populares", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,color="Equipo:",caption = "Fuente: Elaboración propia a partir de datos disponibles en Kaggle") + 
+  theme_bw() +
   theme(legend.position = "bottom")
 
   
@@ -207,33 +210,42 @@ ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(añ
 ### Colo Colo
 
 ```{r}
-promedio_cc <- data.frame(mean(ganados_cc),mean(empatados_cc),mean(perdidos_cc)) %>% 
+gg <- round(mean(ganados_cc),digits = 0)
+ee <- round(mean(empatados_cc),digits = 0)
+pp <- round(mean(perdidos_cc),digits = 0)
+promedio_cc <- data.frame(gg,ee,pp) %>% 
   gt() %>%
-  cols_label(mean.ganados_cc. = "Ganados",
-             mean.empatados_cc. = "Empatados",
-             mean.perdidos_cc. = "Perdidos") 
+  cols_label(gg = "Ganados",
+             ee = "Empatados",
+             pp = "Perdidos") 
 promedio_cc
 ```
 
 ### Universidad Catolica
 
 ```{r}
-promedio_uc <- data.frame(mean(ganados_uc),mean(empatados_uc),mean(perdidos_uc)) %>% 
+gg <- round(mean(ganados_uc),digits = 0)
+ee <- round(mean(empatados_uc),digits = 0)
+pp <- round(mean(perdidos_uc),digits = 0)
+promedio_uc <- data.frame(gg,ee,pp) %>% 
   gt() %>%
-  cols_label(mean.ganados_uc. = "Ganados",
-             mean.empatados_uc. = "Empatados",
-             mean.perdidos_uc. = "Perdidos") 
+  cols_label(gg = "Ganados",
+             ee = "Empatados",
+             pp = "Perdidos")
 promedio_uc
 ```
 
 ### Universidad de Chile
 
 ```{r}
-promedio_u <- data.frame(mean(ganados_u),mean(empatados_u),mean(perdidos_u)) %>% 
+gg <- round(mean(ganados_u),digits = 0)
+ee <- round(mean(empatados_u),digits = 0)
+pp <- round(mean(perdidos_u),digits = 0)
+promedio_u <- data.frame(gg,ee,pp) %>% 
   gt() %>%
-  cols_label(mean.ganados_u. = "Ganados",
-             mean.empatados_u. = "Empatados",
-             mean.perdidos_u. = "Perdidos") 
+  cols_label(gg = "Ganados",
+             ee = "Empatados",
+             pp = "Perdidos")
 promedio_u
 ```
 :::
@@ -302,4 +314,8 @@ tabla3
 
 # Conclusión
 
-La UC es el equipo con mejor rendimiento
+::: incremental
+
+- La UC es el equipo con mejor rendimiento
+
+:::
