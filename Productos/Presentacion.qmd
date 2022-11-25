@@ -20,12 +20,14 @@ library(gt)
 library(gtsummary)
 library(lubridate)
 ```
+
 ```{r}
 #| echo: false
 #| message: false
 
 Datos <- read_csv("datos-desarrollo.csv")
 ```
+
 ```{r}
 #| echo: false
 puntos <- function(dato){
@@ -51,6 +53,7 @@ puntos <- function(dato){
   return(c(pun,resultados))
 }
 ```
+
 ```{r}
 #| echo: false
 partidos <- function(equipo,anio){
@@ -168,20 +171,20 @@ Equipo <- c("Universidad de Chile","Colo Colo","Universidad Catolica")
 
 ganados <- data.frame(año=años,U=ganados_u,CC=ganados_cc,UC=ganados_uc)
 ```
-Para realizar este proyecto se utilizo una base de informacion que se puede encontrar en Kaggle. 
 
+Para realizar este proyecto se utilizo una base de informacion que se puede encontrar en Kaggle.
 
 Esta base de datos contiene la informacion de los resultados del futbol chileno entre los años 2008 y 2021 pero para efectos de la presentacion solo se utilizo la informacion entre los años 2009 y 2020.
 
-## Equipos Analisados 
+## Equipos Analisados
 
-::: {.incremental}
-- Colo Colo
-- Universidad Catolica
-- Universidad de Chile
+::: incremental
+-   Colo Colo
+-   Universidad Catolica
+-   Universidad de Chile
 :::
 
-## Rendimiento 
+## Rendimiento
 
 ```{r}
 ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(año,CC,color=Equipo[2])) + geom_line(aes(año,U,color=Equipo[1])) +
@@ -194,14 +197,13 @@ ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line() + geom_line(aes(añ
   scale_color_manual(values = c("gray0","turquoise1","mediumblue"))+
   labs(title = "Figura 1. Partidos Ganados por los tres equipos más populares", subtitle = "Entre los años 2009 y 2020", y = "Partidos Ganados", x = NULL,color="Equipo:",caption = "Fuente: Elaboración propia a partir de datos disponibles en Kaggle") + 
   theme(legend.position = "bottom")
+
+  
 ```
 
-podemos ver que todos los equipos estan parejos
+## Rendimiento individual
 
-## Rendimiento individual 
-
-::: {.panel-tabset}
-
+::: panel-tabset
 ### Colo Colo
 
 ```{r}
@@ -212,6 +214,7 @@ promedio_cc <- data.frame(mean(ganados_cc),mean(empatados_cc),mean(perdidos_cc))
              mean.perdidos_cc. = "Perdidos") 
 promedio_cc
 ```
+
 ### Universidad Catolica
 
 ```{r}
@@ -233,15 +236,11 @@ promedio_u <- data.frame(mean(ganados_u),mean(empatados_u),mean(perdidos_u)) %>%
              mean.perdidos_u. = "Perdidos") 
 promedio_u
 ```
-
 :::
 
+## Enfrentamientos directos
 
-
-## Enfrentamientos directos 
-
-::: {.panel-tabset}
-
+::: panel-tabset
 ### CC VS U
 
 ```{r}
@@ -262,6 +261,7 @@ tabla2
 ```
 
 ### CC VS UC
+
 ```{r}
 ccvsuc <- Datos %>% 
   filter(HT == "Colo Colo", AT == "Universidad Catolica")
@@ -279,7 +279,6 @@ tabla <- data.frame(cc,d1) %>% gt() %>%
   
 tabla
 ```
-
 
 ### UC VS U
 
@@ -299,9 +298,8 @@ tabla3 <- data.frame(uc,d3) %>% gt() %>%
   cols_label(uc = "", d3 = "Cantidad")
 tabla3
 ```
-
 :::
 
 # Conclusión
 
-La UC es el equipo con mejor rendimiento 
+La UC es el equipo con mejor rendimiento

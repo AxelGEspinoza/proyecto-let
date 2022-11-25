@@ -3,12 +3,17 @@ title: "¿Qué equipo del fútbol chileno tienen mejor rendimiento?"
 author: "Axel González"
 format: 
   html:
+    title-block-author-single: "Autor"  
     code-fold: true
     code-summary: "Código"
+    code-tools: true
+    toc: true
+    toc-title: "Tabla de contenido"
+    
 editor: visual
-toc: true
 editor_options: 
   chunk_output_type: console
+lang: es
 ---
 
 # Abstract
@@ -61,7 +66,7 @@ El [código](https://github.com/AxelGEspinoza/proyecto-let/blob/master/Codigo/Pr
 #| echo: false
 #| message: false
 
-Datos <- read_csv("datos-desarrollo.csv")
+Datos <- read_csv(here::here("Datos/datos-desarrollo.csv"))
 ```
 
 # Inicio Proyecto
@@ -273,6 +278,7 @@ require(gridExtra)
 ```
 
 ```{r}
+#| echo: false
 años <- c(2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020)
 p1 <- ggplot(UC, aes(años,Local,fill="turquoise1")) + geom_col() + 
   scale_x_continuous(breaks = seq(2009,2020,2)) + 
@@ -317,6 +323,7 @@ Podemos ver que Universidad Catolica posee un rendimiento de local bastante alto
 Seguimos con el rendimiento de Colo-Colo. Al igual que con el equipo anterior se iniciara con su rendimiento tanto jugando de local como de visita.
 
 ```{r}
+#| echo: false
 p3 <- ggplot(CC, aes(años,Local,fill="mediumblue")) + geom_col() + 
   scale_x_continuous(breaks = seq(2009,2020,2)) + 
   scale_fill_manual(values="gray0") + 
@@ -357,6 +364,7 @@ Podemos concluir de la tabla anterior que Colo-Colo alcanza el 55% de victorias 
 Y finalmente realizaremos el mismo procedimiento para el club Universidad de Chile, iniciando por ver su rendimiento jugando de local y de visita.
 
 ```{r}
+#| echo: false
 p5 <- ggplot(U, aes(años,Local,fill="mediumblue")) + geom_col() + 
   scale_x_continuous(breaks = seq(2009,2020,2)) + 
   scale_fill_manual(values="mediumblue") + 
