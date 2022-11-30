@@ -212,10 +212,10 @@ ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line(lwd = 1) +
   geom_line(aes(año,U,color=Equipo[1]),lwd = 1) +
   geom_vline(xintercept = 2013, color = "red",linetype = 2)+
   geom_text(aes(2012.25,5,label = "Fin de Playoffs"),stat = "unique",color="red")+
-  geom_text(aes(2013.95,5,label = "Inicio Torneos Cortos"),stat = "unique",color="386641")+
-  geom_vline(xintercept = 2017, color = "386641",linetype = 2)+
-  geom_text(aes(2016,5,label = "Fin Torneos Cortos"),stat = "unique",color="386641")+
-  geom_text(aes(2017.95,5,label = "Inicio Torneo Largo"),stat = "unique",color="003566")+
+  geom_text(aes(2014,5,label = "Inicio Torneo Corto"),stat = "unique",color="386641")+
+  geom_vline(xintercept = 2017, color = "003566",linetype = 2)+
+  geom_text(aes(2016.2,5,label = "Fin Torneo Corto"),stat = "unique",color="386641")+
+  geom_text(aes(2017.99,5,label = "Inicio Torneo Largo"),stat = "unique",color="003566")+
   scale_y_continuous(limits = c(0,30))+
   scale_x_continuous(breaks = seq(2009,2020,1)) +
   scale_color_manual(values = c("gray0","turquoise1","mediumblue"))+
