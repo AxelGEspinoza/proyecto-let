@@ -6,7 +6,37 @@ format:
     theme: moon
 lang: es
 ---
+# Datos
 
+Para realizar este proyecto se utilizo una base de informacion disponible en Kaggle.
+
+Esta base de datos contiene la informacion de los resultados del futbol chileno entre los años 2008 y 2021.
+
+
+## Proceso
+
+::: {.fragment .fade-in-then-semi-out}
+-   Comparativa
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+-   Analisis individual
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+-   Enfrentamientos directos
+:::
+
+## Equipos Analisados
+
+::: incremental
+-   Colo Colo
+
+-   Universidad Catolica
+-   Universidad de Chile
+:::
+
+## Comparativa de rendimiento
 ```{r}
 #| echo: false
 #| message: false
@@ -172,39 +202,6 @@ Equipo <- c("Universidad de Chile","Colo Colo","Universidad Catolica")
 
 ganados <- data.frame(año=años,U=ganados_u,CC=ganados_cc,UC=ganados_uc)
 ```
-
-Para realizar este proyecto se utilizo una base de informacion disponible en Kaggle.
-
-Esta base de datos contiene la informacion de los resultados del futbol chileno entre los años 2008 y 2021.
-
-::: incremental
-
-- ![](images/kaggle.png)
-
-:::
-## Proceso
-
-::: {.fragment .fade-in-then-semi-out}
--   Comparativa
-:::
-
-::: {.fragment .fade-in-then-semi-out}
--   Analisis individual
-:::
-
-::: {.fragment .fade-in-then-semi-out}
--   Enfrentamientos directos
-:::
-
-## Equipos Analisados
-
-::: incremental
--   Colo Colo
--   Universidad Catolica
--   Universidad de Chile
-:::
-
-## Comparativa de rendimiento
 
 ```{r}
 ggplot(ganados,aes(año,UC,color = Equipo[3])) + geom_line(lwd = 1) + 
