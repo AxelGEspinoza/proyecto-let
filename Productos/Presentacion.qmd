@@ -6,12 +6,12 @@ format:
     theme: moon
 lang: es
 ---
+
 # Datos
 
 Para realizar este proyecto se utilizo una base de informacion disponible en Kaggle.
 
 Esta base de datos contiene la informacion de los resultados del futbol chileno entre los años 2008 y 2021.
-
 
 ## Proceso
 
@@ -33,10 +33,12 @@ Esta base de datos contiene la informacion de los resultados del futbol chileno 
 -   Colo Colo
 
 -   Universidad Catolica
+
 -   Universidad de Chile
 :::
 
 ## Comparativa de rendimiento
+
 ```{r}
 #| echo: false
 #| message: false
@@ -342,3 +344,8 @@ tabla3
 # Proyección
 
 Se sugiere realizar el mismo analisis con los datos de los años 2021 y 2022.
+
+# Link
+
+<https://axelgespinoza.github.io/proyecto-let/Productos/Informe.html>
+
